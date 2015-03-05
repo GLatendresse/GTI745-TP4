@@ -763,7 +763,8 @@ class UserContext {
 
 
 	public void draw( GraphicsWrapper gw ) {
-
+		
+		/*
 		palette.draw( gw );
 
 		// draw filled rectangles over the selected strokes
@@ -808,7 +809,7 @@ class UserContext {
 					gw.fillRect( cursor.getFirstPosition().x(), cursor.getFirstPosition().y(), diagonal.x(), diagonal.y() );
 				}
 			}
-		}
+		}*/
 	}
 
 
@@ -1458,6 +1459,7 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 		}
 
 		//TODO
+		/* draw separate line
 		if ( Constant.NUM_USERS == 2 ) {
 		      Point2D center0 = userContexts[0].palette.getCenter();
 		      Point2D center1 = userContexts[1].palette.getCenter();
@@ -1468,7 +1470,7 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 		     gw.setLineWidth(20.0f);
 		     gw.setColor(0,0,255);
 		     gw.drawLine(centerOfDividingLine.x() - 1000 * direction.x(), centerOfDividingLine.y() - 1000 * direction.y(), centerOfDividingLine.x() + 1000 * direction.x(), centerOfDividingLine.y() + 1000 * direction.y());		     
-		 }
+		 }*/
 	}
 
 	public synchronized void keyPressed( KeyEvent e ) {
