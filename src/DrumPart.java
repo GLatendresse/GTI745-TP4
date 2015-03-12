@@ -51,7 +51,7 @@ public class DrumPart
 		switch (type)
 		{
 		case BASS_DRUM :
-			gw.drawCircle(200, 200, 50);
+			gw.drawHalfCircle(200, 200, 50, true);
 			break;
 		default:
 			gw.drawCircle(200, 200, 10);

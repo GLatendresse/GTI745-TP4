@@ -16,7 +16,6 @@ import java.awt.Color;
 
 class GraphicsWrapper {
 
-
 	private int windowWidthInPixels = 10; // must be initialized to something positive
 	private int windowHeightInPixels = 10; // must be initialized to something positive
 
@@ -26,9 +25,6 @@ class GraphicsWrapper {
 
 	public int getWidth() { return windowWidthInPixels; }
 	public int getHeight() { return windowHeightInPixels; }
-
-
-
 
 	private GL gl = null;
 	private GLUT glut = null;
@@ -368,6 +364,21 @@ class GraphicsWrapper {
 				float angle = i * deltaAngle;
 				gl.glVertex2f( x+radius*(float)Math.cos(angle), y+radius*(float)Math.sin(angle) );
 			}
+		gl.glEnd();
+	}
+	
+	public void drawHalfCircle( float x, float y, float radius, boolean isFilled ) {
+		x += radius;
+		y += radius;
+		if ( isFilled ) {
+			gl.glBegin( GL.GL_TRIANGLE_FAN );
+			//gl.glco(0.9f, 0.0f, 0.0f);
+			gl.glVertex2f( x, y );
+		}
+		else gl.glBegin( GL.GL_LINE_LOOP );
+
+			drawArc(x, y, radius, 0.0f, (float)Math.PI);
+			drawLine(x-radius, y, x+radius, y );
 		gl.glEnd();
 	}
 
