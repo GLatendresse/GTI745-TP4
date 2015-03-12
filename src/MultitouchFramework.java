@@ -292,7 +292,9 @@ public class MultitouchFramework
 
 		frame.pack();
 		frame.setVisible( true );
-
+		
+		System.out.println("lenghWindow: " + frame.getSize().toString() );
+		
 		mf.start();
 	}
 

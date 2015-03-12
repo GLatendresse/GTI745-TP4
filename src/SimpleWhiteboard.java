@@ -1280,6 +1280,7 @@ class UserContext {
 
 public class SimpleWhiteboard implements Runnable, ActionListener {
 
+	public Drum drum = new Drum();;
 	public MultitouchFramework multitouchFramework = null;
 	public GraphicsWrapper gw = null;
 	JMenuItem testMenuItem1;
@@ -1298,6 +1299,11 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 	UserContext [] userContexts = null;
 
 	public SimpleWhiteboard( MultitouchFramework mf, GraphicsWrapper gw ) {
+		
+		System.out.println("init Drum: " );
+		//drum.initializeDrum(1);
+
+		
 		multitouchFramework = mf;
 		this.gw = gw;
 		multitouchFramework.setPreferredWindowSize(Constant.INITIAL_WINDOW_WIDTH,Constant.INITIAL_WINDOW_HEIGHT);
@@ -1457,8 +1463,20 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 				s
 			);
 		}
+		
+		//TODO Draw Drums
 
-		//TODO
+	
+		DrumPart dTest =  drum.getDrumPart(0);
+		System.out.println("nouveau2 Drum: " );
+		
+		if( dTest != null)
+		{
+			System.out.println("getDrum: " + dTest.toString());
+			dTest.draw(gw);
+			//gw.drawCircle(200, 200, 50);
+		}
+		
 		/* draw separate line
 		if ( Constant.NUM_USERS == 2 ) {
 		      Point2D center0 = userContexts[0].palette.getCenter();
