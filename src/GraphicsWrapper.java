@@ -325,11 +325,6 @@ class GraphicsWrapper {
 		drawPolyline( points, true, true );
 	}
 
-	public void drawRect( float x, float y, float w, float h, boolean isFilled ) {
-		if ( isFilled ) fillRect( x, y, w, h );
-		else drawRect( x, y, w, h );
-	}
-
 	public void drawRect( float x, float y, float w, float h ) {
 		gl.glBegin( GL.GL_LINE_LOOP );
 			gl.glVertex2f( x, y );
@@ -339,8 +334,9 @@ class GraphicsWrapper {
 		gl.glEnd();
 	}
 
-	public void fillRect( float x, float y, float w, float h ) {
+	public void fillRect( float x, float y, float w, float h, Color color ) {
 		gl.glBegin( GL.GL_QUADS );
+			gl.glColor3f(color.getRed()/255.0f, color.getGreen()/255.0f, color.getBlue()/255.0f);		
 			gl.glVertex2f( x, y );
 			gl.glVertex2f( x, y+h );
 			gl.glVertex2f( x+w, y+h );
@@ -348,15 +344,12 @@ class GraphicsWrapper {
 		gl.glEnd();
 	}
 
-	public void drawCircle( float x, float y, float radius, boolean isFilled ) {
+	public void drawCircle( float x, float y, float radius ) {
 		x += radius;
 		y += radius;
-		if ( isFilled ) {
-			gl.glBegin( GL.GL_TRIANGLE_FAN );
-			gl.glVertex2f( x, y );
-		}
-		else gl.glBegin( GL.GL_LINE_LOOP );
-
+		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glBegin( GL.GL_LINE_LOOP );
+		
 			int numSides = (int)( 2 * Math.PI * radius + 1 );
 			float deltaAngle = 2 * (float)Math.PI / numSides;
 
@@ -366,34 +359,67 @@ class GraphicsWrapper {
 			}
 		gl.glEnd();
 	}
-	
-	public void drawHalfCircle( float x, float y, float radius, boolean isFilled ) {
+
+	public void fillCircle( float x, float y, float radius, Color color ) {
 		x += radius;
 		y += radius;
-		if ( isFilled ) {
-			gl.glBegin( GL.GL_TRIANGLE_FAN );
-			//gl.glco(0.9f, 0.0f, 0.0f);
-			gl.glVertex2f( x, y );
-		}
-		else gl.glBegin( GL.GL_LINE_LOOP );
 
-			drawArc(x, y, radius, 0.0f, (float)Math.PI);
-			drawLine(x-radius, y, x+radius, y );
+		gl.glBegin( GL.GL_TRIANGLE_FAN );
+		gl.glColor3f(color.getRed()/255.0f, color.getGreen()/255.0f, color.getBlue()/255.0f);
+		gl.glVertex2f( x, y );
+
+		int numSides = (int)( 2 * Math.PI * radius + 1 );
+		float deltaAngle = 2 * (float)Math.PI / numSides;
+
+		for ( int i = 0; i <= numSides; ++i ) 
+		{
+			float angle = i * deltaAngle;
+			gl.glVertex2f( x+radius*(float)Math.cos(angle), y+radius*(float)Math.sin(angle) );
+		}
 		gl.glEnd();
 	}
 
-	public void drawCircle( float x, float y, float radius ) {
-		drawCircle( x, y, radius, false );
-	}
-
-	public void fillCircle( float x, float y, float radius ) {
-		drawCircle( x, y, radius, true );
-	}
-
-	public void drawCenteredCircle( float x, float y, float radius, boolean isFilled ) {
+	public void drawCenteredCircle( float x, float y, float radius ) {
 		x -= radius;
 		y -= radius;
-		drawCircle( x, y, radius, isFilled );
+		drawCircle( x, y, radius );
+	}
+	
+	public void fillCenteredCircle( float x, float y, float radius, Color color ) {
+		x -= radius;
+		y -= radius;
+		fillCircle( x, y, radius, color );
+	}
+	
+	public void drawHalfCircle( float x, float y, float radius ) {
+		x += radius;
+		y += radius;
+
+		gl.glBegin( GL.GL_LINE_LOOP );
+		drawArc(x, y, radius, 0.0f, (float)Math.PI);
+		drawLine(x-radius, y, x+radius, y );
+		gl.glEnd();
+	}
+	
+	public void fillHalfCircle( float center_x, float center_y, float radius, Color color ) {
+
+
+		gl.glBegin( GL.GL_TRIANGLE_FAN );
+		gl.glColor3f(color.getRed()/255.0f, color.getGreen()/255.0f, color.getBlue()/255.0f);
+		gl.glVertex2f( center_x, center_y );
+
+
+		int numSides = (int)( Math.PI * radius + 1 );
+		float deltaAngle = (float)Math.PI / numSides;
+
+			for ( int i = 0; i <= numSides; ++i ) {
+				float angle = -( 0 + i * deltaAngle );
+				gl.glVertex2f( center_x+radius*(float)Math.cos(angle), center_y+radius*(float)Math.sin(angle) );
+			}
+		gl.glEnd();
+
+		//if ( isFilled && angleExtent < 0 )
+			//gl.glFrontFace( GL.GL_CCW );
 	}
 
 	public void drawArc(
@@ -408,6 +434,7 @@ class GraphicsWrapper {
 			if ( angleExtent < 0 )
 				gl.glFrontFace( GL.GL_CW );
 			gl.glBegin( GL.GL_TRIANGLE_FAN );
+			gl.glColor3f( 0, 1, 0 );
 			gl.glVertex2f( center_x, center_y );
 		}
 		else gl.glBegin( GL.GL_LINE_STRIP );

@@ -129,12 +129,15 @@ public class MultitouchFramework
 	// so we don't call it.
 	//
 	public void keyPressed( KeyEvent e ) {
+		System.out.println("key");
 		client.keyPressed(e);
 	}
 	public void keyReleased( KeyEvent e ) {
+		System.out.println("key:");
 		client.keyReleased(e);
 	}
 	public void keyTyped( KeyEvent e ) {
+		System.out.println("key:");
 		client.keyTyped(e);
 	}
 	public void mouseEntered( MouseEvent e ) {
@@ -157,6 +160,7 @@ public class MultitouchFramework
 		mouse_x = e.getX();
 		mouse_y = e.getY();
 		if ( e.isControlDown() ) {
+			System.out.println("crtl appuyer");
 			if ( indexOfFingerUnderMouse == -1 ) {
 				indexOfFingerUnderMouse = fingerContainer.createFinger( e.getX(), e.getY() );
 				Finger f = fingerContainer.getFingerByIndex( indexOfFingerUnderMouse );

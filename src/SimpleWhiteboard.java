@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -358,13 +359,13 @@ class PaletteButton {
 		// draw background
 		if ( isPressed ) {
 			gw.setColor( 0, 0, 0, Palette.alpha );
-			gw.fillRect( palette_x + x0, palette_y + y0, width, height );
+			//gw.fillRect( palette_x + x0, palette_y + y0, width, height );
 			// set the foreground color in preparation for drawing the label
 			gw.setColor( 1, 1, 1 );
 		}
 		else {
 			gw.setColor( 1, 1, 1, Palette.alpha );
-			gw.fillRect( palette_x + x0, palette_y + y0, width, height );
+			//gw.fillRect( palette_x + x0, palette_y + y0, width, height );
 			// draw border
 			gw.setColor( 0, 0, 0 );
 			gw.drawRect( palette_x + x0, palette_y + y0, width, height );
@@ -1278,7 +1279,7 @@ class UserContext {
 }
 
 
-public class SimpleWhiteboard implements Runnable, ActionListener {
+public class SimpleWhiteboard implements Runnable /*ActionListener, KeyListener */ {
 
 	public Drum drum = new Drum();;
 	public MultitouchFramework multitouchFramework = null;
@@ -1332,7 +1333,8 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 
 		gw.frame( new AlignedRectangle2D( new Point2D(-100,-100), new Point2D(100,100) ), true );
 	}
-
+	
+	/*
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if ( source == testMenuItem1 ) {
@@ -1351,17 +1353,18 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 		else if ( source == testButton2 ) {
 			System.out.println("testButton2 has been selected");
 		}
-	}
+	}*/
 
 	// Called by the framework when creating widgets.
+	
 	public JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 			JMenu menu = new JMenu("File");
 				testMenuItem1 = new JMenuItem("Test 1");
-				testMenuItem1.addActionListener(this);
+				//testMenuItem1.addActionListener(this);
 				menu.add(testMenuItem1);
 				testMenuItem2 = new JMenuItem("Test 2");
-				testMenuItem2.addActionListener(this);
+				//testMenuItem2.addActionListener(this);
 				menu.add(testMenuItem2);
 			menuBar.add(menu);
 		return menuBar;
@@ -1372,13 +1375,13 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 		JPanel panelOfWidgets = new JPanel();
 		panelOfWidgets.setLayout( new BoxLayout( panelOfWidgets, BoxLayout.Y_AXIS ) );
 		frameAllButton = new JButton("Frame All");
-		frameAllButton.addActionListener(this);
+		//frameAllButton.addActionListener(this);
 		panelOfWidgets.add( frameAllButton );
 		testButton1 = new JButton("Test number 1 ...");
-		testButton1.addActionListener(this);
+		//testButton1.addActionListener(this);
 		panelOfWidgets.add( testButton1 );
 		testButton2 = new JButton("Test number 2 ...");
-		testButton2.addActionListener(this);
+		//testButton2.addActionListener(this);
 		panelOfWidgets.add( testButton2 );
 		return panelOfWidgets;
 	}
@@ -1465,17 +1468,19 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 		}
 		
 		//TODO Draw Drums
-
-	
-		DrumPart dTest =  drum.getDrumPart(0);
-		System.out.println("nouveau2 Drum: " );
+		DrumPart dTest = null;
 		
-		if( dTest != null)
+		for(int i=0; i <= drum.getDrumParts().size(); i++)
 		{
-			System.out.println("getDrum: " + dTest.toString());
-			dTest.draw(gw);
-			//gw.drawCircle(200, 200, 50);
+			 dTest =  drum.getDrumPart(i);
+			 if( dTest != null)
+			{
+				System.out.println("getDrum: " + dTest.toString());
+				dTest.draw(gw);
+				//gw.drawCircle(200, 200, 50);
+			}
 		}
+	
 		
 		/* draw separate line
 		if ( Constant.NUM_USERS == 2 ) {
@@ -1491,19 +1496,23 @@ public class SimpleWhiteboard implements Runnable, ActionListener {
 		 }*/
 	}
 
-	public synchronized void keyPressed( KeyEvent e ) {
-		System.out.println("Key '" + e.getKeyChar() + "' pressed!");
+	public void keyPressed( KeyEvent e ) {
+		System.out.println("Key 2");
 	}
-	public synchronized void keyReleased( KeyEvent e ) {
+	public void keyReleased( KeyEvent e ) {
+		System.out.println("Key 2'");
 	}
-	public synchronized void keyTyped( KeyEvent e ) {
-		System.out.println("Key '" + e.getKeyChar() + "' typed!");
+	public void keyTyped( KeyEvent e ) {
+		System.out.println("Key 2");
 	}
-	public synchronized void mouseEntered( MouseEvent e ) {
+	public  void mouseEntered( MouseEvent e ) {
+		System.out.println("Mouse entered 2!");
 	}
-	public synchronized void mouseExited( MouseEvent e ) {
+	public  void mouseExited( MouseEvent e ) {
+		System.out.println("Mouse exited 2!");
 	}
-	public synchronized void mouseClicked( MouseEvent e ) {
+	public  void mouseClicked( MouseEvent e ) {
+		System.out.println("Mouse clicked  2!");
 	}
 
 
