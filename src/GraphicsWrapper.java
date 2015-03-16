@@ -333,7 +333,22 @@ class GraphicsWrapper {
 			gl.glVertex2f( x+w, y );
 		gl.glEnd();
 	}
-
+	
+	public void drawRect( float x, float y, float w, float h, boolean isFilled ) {
+		if ( isFilled ) fillRect( x, y, w, h );
+		else drawRect( x, y, w, h );
+	}
+	
+	public void fillRect( float x, float y, float w, float h ) {
+		gl.glBegin( GL.GL_QUADS );
+			gl.glVertex2f( x, y );
+			gl.glVertex2f( x, y+h );
+			gl.glVertex2f( x+w, y+h );
+			gl.glVertex2f( x+w, y );
+		gl.glEnd();
+	}
+	
+	//Méthode ajouté par jérome
 	public void fillRect( float x, float y, float w, float h, Color color ) {
 		gl.glBegin( GL.GL_QUADS );
 			gl.glColor3f(color.getRed()/255.0f, color.getGreen()/255.0f, color.getBlue()/255.0f);		
@@ -343,13 +358,20 @@ class GraphicsWrapper {
 			gl.glVertex2f( x+w, y );
 		gl.glEnd();
 	}
-
+	
 	public void drawCircle( float x, float y, float radius ) {
+		drawCircle( x, y, radius, false );
+	}
+
+	public void drawCircle( float x, float y, float radius, boolean isFilled ) {
 		x += radius;
 		y += radius;
-		gl.glColor3f(0.0f, 0.0f, 0.0f);
-		gl.glBegin( GL.GL_LINE_LOOP );
-		
+		if ( isFilled ) {
+			gl.glBegin( GL.GL_TRIANGLE_FAN );
+			gl.glVertex2f( x, y );
+		}
+		else gl.glBegin( GL.GL_LINE_LOOP );
+
 			int numSides = (int)( 2 * Math.PI * radius + 1 );
 			float deltaAngle = 2 * (float)Math.PI / numSides;
 
@@ -359,7 +381,8 @@ class GraphicsWrapper {
 			}
 		gl.glEnd();
 	}
-
+	
+	//Méthode ajouté
 	public void fillCircle( float x, float y, float radius, Color color ) {
 		x += radius;
 		y += radius;
@@ -382,15 +405,27 @@ class GraphicsWrapper {
 	public void drawCenteredCircle( float x, float y, float radius ) {
 		x -= radius;
 		y -= radius;
-		drawCircle( x, y, radius );
+		drawCircle( x, y, radius, false );
 	}
 	
+	//Méthode ajouté
 	public void fillCenteredCircle( float x, float y, float radius, Color color ) {
 		x -= radius;
 		y -= radius;
 		fillCircle( x, y, radius, color );
 	}
 	
+	public void fillCircle( float x, float y, float radius ) {
+		drawCircle( x, y, radius, true );
+	}
+
+	public void drawCenteredCircle( float x, float y, float radius, boolean isFilled ) {
+		x -= radius;
+		y -= radius;
+		drawCircle( x, y, radius, isFilled );
+	}
+	
+	//Méthode ajouté
 	public void drawHalfCircle( float x, float y, float radius ) {
 		x += radius;
 		y += radius;
@@ -401,6 +436,7 @@ class GraphicsWrapper {
 		gl.glEnd();
 	}
 	
+	//Méthode ajouté
 	public void fillHalfCircle( float center_x, float center_y, float radius, Color color ) {
 
 
@@ -421,55 +457,54 @@ class GraphicsWrapper {
 		//if ( isFilled && angleExtent < 0 )
 			//gl.glFrontFace( GL.GL_CCW );
 	}
-
+	
 	public void drawArc(
-		float center_x, // increases right
-		float center_y, // increases down
-		float radius,
-		float startAngle, // in radians; zero for right, increasing counterclockwise
-		float angleExtent, // in radians; positive for counterclockwise
-		boolean isFilled
-	) {
-		if ( isFilled ) {
-			if ( angleExtent < 0 )
-				gl.glFrontFace( GL.GL_CW );
-			gl.glBegin( GL.GL_TRIANGLE_FAN );
-			gl.glColor3f( 0, 1, 0 );
-			gl.glVertex2f( center_x, center_y );
-		}
-		else gl.glBegin( GL.GL_LINE_STRIP );
-
-			int numSides = (int)( Math.abs(angleExtent) * radius + 1 );
-			float deltaAngle = angleExtent / numSides;
-
-			for ( int i = 0; i <= numSides; ++i ) {
-				float angle = -( startAngle + i * deltaAngle );
-				gl.glVertex2f( center_x+radius*(float)Math.cos(angle), center_y+radius*(float)Math.sin(angle) );
+			float center_x, // increases right
+			float center_y, // increases down
+			float radius,
+			float startAngle, // in radians; zero for right, increasing counterclockwise
+			float angleExtent, // in radians; positive for counterclockwise
+			boolean isFilled
+		) {
+			if ( isFilled ) {
+				if ( angleExtent < 0 )
+					gl.glFrontFace( GL.GL_CW );
+				gl.glBegin( GL.GL_TRIANGLE_FAN );
+				gl.glVertex2f( center_x, center_y );
 			}
-		gl.glEnd();
+			else gl.glBegin( GL.GL_LINE_STRIP );
 
-		if ( isFilled && angleExtent < 0 )
-			gl.glFrontFace( GL.GL_CCW );
-	}
+				int numSides = (int)( Math.abs(angleExtent) * radius + 1 );
+				float deltaAngle = angleExtent / numSides;
 
-	public void drawArc(
-		float center_x, float center_y, float radius,
-		float startAngle, // in radians
-		float angleExtent // in radians
-	) {
-		drawArc( center_x, center_y, radius, startAngle, angleExtent, false );
-	}
+				for ( int i = 0; i <= numSides; ++i ) {
+					float angle = -( startAngle + i * deltaAngle );
+					gl.glVertex2f( center_x+radius*(float)Math.cos(angle), center_y+radius*(float)Math.sin(angle) );
+				}
+			gl.glEnd();
 
-	public void fillArc(
-		float center_x, float center_y, float radius,
-		float startAngle, // in radians
-		float angleExtent // in radians
-	) {
-		drawArc( center_x, center_y, radius, startAngle, angleExtent, true );
-	}
+			if ( isFilled && angleExtent < 0 )
+				gl.glFrontFace( GL.GL_CCW );
+		}
+
+		public void drawArc(
+			float center_x, float center_y, float radius,
+			float startAngle, // in radians
+			float angleExtent // in radians
+		) {
+			drawArc( center_x, center_y, radius, startAngle, angleExtent, false );
+		}
+
+		public void fillArc(
+			float center_x, float center_y, float radius,
+			float startAngle, // in radians
+			float angleExtent // in radians
+		) {
+			drawArc( center_x, center_y, radius, startAngle, angleExtent, true );
+		}
 
 
-
+	
 	// returns the width of a string
 	public float stringWidth( String s ) {
 		if ( s == null || s.length() == 0 ) return 0;

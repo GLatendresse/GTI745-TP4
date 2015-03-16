@@ -89,17 +89,20 @@ public class DrumPart
 		case HIHAT_CYMBAL:
 			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
 			//wCenteredCircle(centerX, centerY, radius*0.2f);
+			gw.setColor(0, 0, 0);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			
 			break;
 		case CRASH_SYMBAL:
 			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.setColor(0, 0, 0);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			break;
 		case RIDE_SYMBAL:
 			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.setColor(0, 0, 0);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			break;
@@ -110,7 +113,7 @@ public class DrumPart
 			gw.fillRect(centerX, centerY, radius*2, radius*2, backgroundColor);
 			break;
 		default:
-			gw.drawCircle(200, 200, 10);
+			gw.drawCenteredCircle(200, 200, 10);
 			break;
 		}
 	}
