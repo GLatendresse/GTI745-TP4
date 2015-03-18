@@ -148,6 +148,11 @@ public class MultitouchFramework
 	}
 	public void mouseClicked( MouseEvent e ) {
 		client.mouseClicked(e);
+		mouse_x = e.getX();
+		mouse_y = e.getY();
+		
+		//System.out.println("mouse: " +  mouse_x + ": " + mouse_y); 
+		
 	}
 	private void updateHiliting( int x, int y ) {
 		int newIndexOfFingerUnderMouse = fingerContainer.getIndexOfFingerUnderCursorPosition( x, y );
@@ -159,6 +164,9 @@ public class MultitouchFramework
 	public void mousePressed( MouseEvent e ) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
+		
+		//System.out.println("mouse: " +  mouse_x + ": " + mouse_y); 
+		/*
 		if ( e.isControlDown() ) {
 			System.out.println("crtl appuyer");
 			if ( indexOfFingerUnderMouse == -1 ) {
@@ -175,7 +183,7 @@ public class MultitouchFramework
 		}
 		else {
 			client.mousePressed(e);
-		}
+		}*/
 	}
 	public void mouseReleased( MouseEvent e ) {
 		mouse_x = e.getX();
