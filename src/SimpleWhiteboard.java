@@ -1279,7 +1279,7 @@ class UserContext {
 }
 
 
-public class SimpleWhiteboard implements Runnable /*ActionListener, KeyListener */ {
+public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener */  {
 
 	private Sound sound = new Sound();
 	private Drum drum = new Drum();
@@ -1527,10 +1527,16 @@ public class SimpleWhiteboard implements Runnable /*ActionListener, KeyListener 
 
 
 	public synchronized void mousePressed(MouseEvent e) {
+
 		mouse_x = e.getX();
 		mouse_y = e.getY();
-		sound.cowBell();
-
+		
+		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
+		
+		if( drumPart != null)
+		{
+			drumPart.playSound();
+		}
 		// multitouchFramework.requestRedraw();
 	}
 

@@ -106,11 +106,11 @@ public class MultitouchFramework
 		super( caps );
 
 		createClient();
-
+			
 		addGLEventListener(this);
 		addKeyListener( this );
 		addMouseListener( this );
-		addMouseMotionListener( this );
+		addMouseMotionListener( this ); 
 	}
 	public Dimension getPreferredSize() {
 		return new Dimension( preferredWidth, preferredHeight );
@@ -129,15 +129,15 @@ public class MultitouchFramework
 	// so we don't call it.
 	//
 	public void keyPressed( KeyEvent e ) {
-		System.out.println("key");
+		//System.out.println("key");
 		client.keyPressed(e);
 	}
 	public void keyReleased( KeyEvent e ) {
-		System.out.println("key:");
+		//System.out.println("key:");
 		client.keyReleased(e);
 	}
 	public void keyTyped( KeyEvent e ) {
-		System.out.println("key:");
+		//System.out.println("key:");
 		client.keyTyped(e);
 	}
 	public void mouseEntered( MouseEvent e ) {
@@ -164,7 +164,7 @@ public class MultitouchFramework
 	public void mousePressed( MouseEvent e ) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
-		
+		client.mousePressed(e);
 		//System.out.println("mouse: " +  mouse_x + ": " + mouse_y); 
 		/*
 		if ( e.isControlDown() ) {
