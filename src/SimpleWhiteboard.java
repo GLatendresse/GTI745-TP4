@@ -15,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 //import javax.swing.SwingUtilities;
 import javax.swing.BoxLayout;
+import javax.swing.Timer;
 
 
 
@@ -1282,6 +1283,7 @@ class UserContext {
 public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener */  {
 
 	private Sound sound = new Sound();
+	private Chromaesthesia chroma = new Chromaesthesia();
 	private Drum drum = new Drum();
 	private DrumPart drumPart;
 	public MultitouchFramework multitouchFramework = null;
@@ -1334,6 +1336,13 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		gw.setFontHeight( Constant.TEXT_HEIGHT );
 
 		gw.frame( new AlignedRectangle2D( new Point2D(-100,-100), new Point2D(100,100) ), true );
+		
+		ActionListener counter = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) 
+			{ 
+					multitouchFramework.requestRedraw();
+			}};
+		 new Timer(15, counter).start();
 	}
 	
 	/*
@@ -1434,7 +1443,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	}
 
 	public synchronized void draw() {
-		gw.clear(1,1,1);
+		gw.clear(0,0,0);
 		gw.setColor(0,0,0);
 		gw.setupForDrawing();
 
@@ -1442,7 +1451,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		gw.enableAlphaBlending();
 
 		drawing.draw( gw );
-
+		
 		gw.setCoordinateSystemToPixels();
 
 		for ( int j = 0; j < Constant.NUM_USERS; ++j ) {
@@ -1470,14 +1479,24 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		}
 		
 		//TODO Draw Drums
-		DrumPart dTest = null;
+		DrumPart dpart = null;
 		
 		for(int i=0; i <= drum.getDrumParts().size(); i++)
 		{
-			 dTest =  drum.getDrumPart(i);
-			 if( dTest != null)
+			 dpart =  drum.getDrumPart(i);
+			 if( dpart != null)
 			{
-				dTest.draw(gw);
+				dpart.drawChromaethesia(gw);
+				//gw.drawCircle(200, 200, 50);
+			}
+		}
+		
+		for(int i=0; i <= drum.getDrumParts().size(); i++)
+		{
+			 dpart =  drum.getDrumPart(i);
+			 if( dpart != null)
+			{
+				dpart.draw(gw);
 				//gw.drawCircle(200, 200, 50);
 			}
 		}

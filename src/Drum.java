@@ -23,25 +23,25 @@ public class Drum
 			DrumPart dp = new DrumPart("Bass Drum", 1, 80.0f, 508.0f, 500.0f, Color.red, Color.BLACK);
 			drumParts.add(dp);
 			
-			DrumPart dp2 = new DrumPart("Floor Tom Tom", 2, 30.0f, 30.0f, 300.0f, Color.orange, Color.BLACK);
+			DrumPart dp2 = new DrumPart("Floor Tom Tom", 2, 30.0f, 30.0f, 300.0f, new Color( 255,165,0), Color.BLACK);
 			drumParts.add(dp2);
 			
-			DrumPart dp3 = new DrumPart("Middle Tom Tom", 3, 30.0f, 138.0f, 300.0f, Color.yellow, Color.BLACK);
+			DrumPart dp3 = new DrumPart("Middle Tom Tom", 3, 30.0f, 138.0f, 300.0f, new Color(255,183,50), Color.BLACK);
 			drumParts.add(dp3);
 			
-			DrumPart dp4 = new DrumPart("High Tom Tom", 4, 30.0f, 238.0f, 300.0f, Color.green, Color.BLACK);
+			DrumPart dp4 = new DrumPart("High Tom Tom", 4, 30.0f, 238.0f, 300.0f, new Color(255,201,102), Color.BLACK);
 			drumParts.add(dp4);
 			
-			DrumPart dp5 = new DrumPart("Snare Drum", 5, 30.0f, 338.0f, 300.0f, Color.cyan, Color.BLACK);
+			DrumPart dp5 = new DrumPart("Snare Drum", 5, 45.0f, 338.0f, 300.0f, Color.green, Color.BLACK);
 			drumParts.add(dp5);
 			
-			DrumPart dp6 = new DrumPart("hihat cymbal", 6, 30.0f, 438.0f, 300.0f, Color.blue, Color.BLACK);
+			DrumPart dp6 = new DrumPart("hihat cymbal", 6, 30.0f, 438.0f, 300.0f, Color.magenta, Color.BLACK);
 			drumParts.add(dp6);
 			
-			DrumPart dp7 = new DrumPart("crash cymbal", 7, 30.0f, 538.0f, 300.0f, Color.magenta, Color.BLACK);
+			DrumPart dp7 = new DrumPart("crash cymbal", 7, 30.0f, 538.0f, 300.0f, Color.yellow, Color.BLACK);
 			drumParts.add(dp7);
 			
-			DrumPart dp8 = new DrumPart("ride cymbal", 8, 30.0f, 638.0f, 300.0f, Color.pink, Color.BLACK);
+			DrumPart dp8 = new DrumPart("ride cymbal", 8, 30.0f, 638.0f, 300.0f, Color.cyan, Color.BLACK);
 			drumParts.add(dp8);
 			
 			DrumPart dp9 = new DrumPart("hihat pedal", 9, 15.0f, 738.0f, 300.0f, Color.gray, Color.BLACK);

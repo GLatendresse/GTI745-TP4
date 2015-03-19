@@ -22,7 +22,8 @@ public class DrumPart
 	private Color actionColor; //Couleur qui apparait quand l'utlisateur touche la partie de ce drum.
 	private boolean playState; //Détermine si l'instrument est activé/désactivé pour jouer
 	private boolean cymbalHihatState; //Détermine si la symbale (Hi-hat) est monté par sa pédale ou pas 
-	private Sound sound = new Sound();; 
+	private Sound sound = new Sound();
+	public Chromaesthesia chroma = new Chromaesthesia();
 	
 	public DrumPart(String name, int type, float radius, float centerX, float centerY )
 	{
@@ -76,31 +77,34 @@ public class DrumPart
 		switch (type)
 		{
 		case BASS_DRUM :
-			sound.bassDrum(true);
+			chroma.addBass();
 			break;
 		case FLOOR_TOM_TOM:
-			sound.lowTom(true);
+			chroma.addLowTom();
 			break;
 		case MIDDLE_TOM_TOM:
-			sound.midTom(true);
+			chroma.addMidTom();
 			break;
 		case HIGH_TOM_TOM:
-			sound.highTom(true);
+			chroma.addHighTom();
 			break;
 		case SNARE_DRUM:
-			sound.snareDrum(true);
+			chroma.addSnare();
 			break;
 		case HIHAT_CYMBAL:
-			sound.hiHatCymbal(true);
+				if(cymbalHihatState)
+					chroma.addHiHatCymbalOpen();
+				else
+					chroma.addHiHatCymbalClosed();
 			break;
 		case CRASH_SYMBAL:
-			sound.crashCymbal(true);
+			chroma.addCrashCymbal();
 			break;
 		case RIDE_SYMBAL:
-			sound.rideCymbal(true);
+			chroma.addRideCymbal();
 			break;
 		case HIHAT_PEDAL:
-			sound.hiHatPedal();
+			chroma.addHiHatPedal();
 			break;
 		default:
 
@@ -108,44 +112,58 @@ public class DrumPart
 		}
 	}
 	
+	public void drawChromaethesia(GraphicsWrapper gw){
+		chroma.draw(gw, (int)centerX, (int)centerY);
+	}
+	
 	public void draw(GraphicsWrapper gw)
 	{
+		gw.setColor(backgroundColor);
 		switch (type)
 		{
 		case BASS_DRUM :
-			gw.fillHalfCircle(centerX, centerY, radius, backgroundColor);
+			//gw.fillHalfCircle(centerX, centerY, radius, backgroundColor);
+			//gw.drawCenteredCircle(centerX, centerY, radius, true);
+			gw.fillArc(centerX, centerY, radius, 0, (float)Math.PI);
 			break;
 		case FLOOR_TOM_TOM:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
 			break;
 		case MIDDLE_TOM_TOM:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
 			break;
 		case HIGH_TOM_TOM:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			//gw.setColor(backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
 			break;
 		case HIHAT_CYMBAL:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
-			//wCenteredCircle(centerX, centerY, radius*0.2f);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
 			gw.setColor(0, 0, 0);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			
 			break;
 		case CRASH_SYMBAL:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
 			gw.setColor(0, 0, 0);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			break;
 		case RIDE_SYMBAL:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
 			gw.setColor(0, 0, 0);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			break;
 		case SNARE_DRUM:
-			gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
+			gw.drawCenteredCircle(centerX, centerY, radius, true);
 			break;
 		case HIHAT_PEDAL:
 			gw.fillRect(centerX, centerY, radius*2, radius*2, backgroundColor);

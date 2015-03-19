@@ -540,6 +540,30 @@ class GraphicsWrapper {
 	}
 
 
+	public void drawOval( float x, float y, float radiusX, float radiusY, boolean isFilled ) {
+		x += radiusX;
+		y += radiusY;
+		if ( isFilled ) {
+			gl.glBegin( GL.GL_TRIANGLE_FAN );
+			gl.glVertex2f( x, y );
+		}
+		else gl.glBegin( GL.GL_LINE_LOOP );
+
+			int numSides = (int)( 2 * Math.PI * radiusX + 1 );
+			float deltaAngle = 2 * (float)Math.PI / numSides;
+
+			for ( int i = 0; i <= numSides; ++i ) {
+				float angle = i * deltaAngle;
+				gl.glVertex2f( x+radiusX*(float)Math.cos(angle), y+radiusY*(float)Math.sin(angle) );
+			}
+		gl.glEnd();
+	}
+	
+	public void drawCenteredOval( float x, float y, float radiusX, float radiusY, boolean isFilled ) {
+		x -= radiusX;
+		y -= radiusY;
+		drawOval( x, y, radiusX, radiusY, isFilled );
+	}
 }
 
 
