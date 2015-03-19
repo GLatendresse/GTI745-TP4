@@ -1281,8 +1281,9 @@ class UserContext {
 
 public class SimpleWhiteboard implements Runnable /*ActionListener, KeyListener */ {
 
-	public Drum drum = new Drum();
-	public DrumPart drumPart;
+	private Sound sound = new Sound();
+	private Drum drum = new Drum();
+	private DrumPart drumPart;
 	public MultitouchFramework multitouchFramework = null;
 	public GraphicsWrapper gw = null;
 	JMenuItem testMenuItem1;
@@ -1514,18 +1515,21 @@ public class SimpleWhiteboard implements Runnable /*ActionListener, KeyListener 
 	public  void mouseClicked( MouseEvent e ) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
+		
+		/*
 		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
 		
 		if( drumPart != null)
 		{
 			drumPart.playSound();
-		}
+		}*/
 	}
 
 
 	public synchronized void mousePressed(MouseEvent e) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
+		sound.cowBell();
 
 		// multitouchFramework.requestRedraw();
 	}

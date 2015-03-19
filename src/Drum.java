@@ -83,12 +83,9 @@ public class Drum
 				{
 					return drumPart;
 				}
-				else
+				else if( mouseY <=  drumPart.getCenterY() )
 				{
-					if( mouseY <=  drumPart.getCenterY() )
-					{
-						return drumPart;
-					}
+					return drumPart;
 				}
 			}
 		}
