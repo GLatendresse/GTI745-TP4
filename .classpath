@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Jerome Othot/Documents/ETS/Session H8/Java/jogl-1.1.1-windows-i586/lib/gluegen-rt.jar">
+	<classpathentry kind="lib" path="jogl-1.1.1-windows-i586/lib/gluegen-rt.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Jerome Othot/Documents/ETS/Session H8/Java/jogl-1.1.1-windows-i586/lib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GTI-745-TP02/jogl-1.1.1-windows-i586/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Jerome Othot/Documents/ETS/Session H8/Java/Jnative/JNative.jar">
+	<classpathentry kind="lib" path="Jnative/JNative.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Jerome Othot/Documents/ETS/Session H8/Java/Jnative"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GTI-745-TP02/Jnative"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Jerome Othot/Documents/ETS/Session H8/Java/jogl-1.1.1-windows-i586/lib/jogl.jar">
+	<classpathentry kind="lib" path="jogl-1.1.1-windows-i586/lib/jogl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Jerome Othot/Documents/ETS/Session H8/Java/jogl-1.1.1-windows-i586/lib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GTI-745-TP02/jogl-1.1.1-windows-i586/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_75"/>
