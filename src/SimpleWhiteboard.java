@@ -1286,6 +1286,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	private Chromaesthesia chroma = new Chromaesthesia();
 	private Drum drum = new Drum();
 	private DrumPart drumPart;
+	private Metronome metronome;
 	public MultitouchFramework multitouchFramework = null;
 	public GraphicsWrapper gw = null;
 	JMenuItem testMenuItem1;
@@ -1307,7 +1308,10 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		
 		System.out.println("init Drum: " );
 		//drum.initializeDrum(1);
-
+		
+		//Initialisation du métronome
+		metronome = new Metronome("Métronome", 100, 50, 100, 700, Color.lightGray, Color.magenta, 1000 );
+		
 		
 		multitouchFramework = mf;
 		this.gw = gw;
@@ -1500,7 +1504,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				//gw.drawCircle(200, 200, 50);
 			}
 		}
-	
+		
+		//TODO Draw Metronome
+		
+		metronome.drawChromaethesia(gw);
+		metronome.draw(gw);
 		
 		/* draw separate line
 		if ( Constant.NUM_USERS == 2 ) {
@@ -1534,6 +1542,23 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	public  void mouseClicked( MouseEvent e ) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
+		
+		if((mouse_x <= metronome.getCenterX()+metronome.getWidth() && mouse_x >= metronome.getCenterX()) 
+				&&  (mouse_y <= metronome.getCenterY()+metronome.getHeight() && mouse_y >= metronome.getCenterY())){
+			
+			if(!metronome.isActivated()){
+				
+				metronome.activate();
+				
+			}
+			
+			else{
+				
+				metronome.desactivate();
+				
+			}
+		
+		}
 		
 		/*
 		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
