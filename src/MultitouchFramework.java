@@ -246,6 +246,14 @@ public class MultitouchFramework
 	) {
 		gw.set( drawable );
 		gw.resize( width, height );
+		System.out.println("reshape");
+		client.getDrum().gw = gw;
+		client.getDrum().initializeDrumPosition();
+		
+		for( int i=0; i <  client.getDrum().getDrumParts().size(); i++ )
+		{
+			client.getDrum().getDrumPart(i).changePosition(gw, client.getDrum());
+		}
 	}
 	public void displayChanged(
 		GLAutoDrawable drawable,

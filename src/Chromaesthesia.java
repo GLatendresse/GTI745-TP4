@@ -40,14 +40,14 @@ public class Chromaesthesia {
 		shapes.add(new Shape_Circle(new Color(255,201,102), 0.99f, 30, 0, 0, true));
 	}
 	
-	public void addHiHatPedal(){
+	public void addHiHatPedal(float radius){
 		sound.hiHatPedal();
-		shapes.add(new Shape_Circle(Color.magenta, 0.99f, 10, 0, 0, true));
+		shapes.add(new Shape_Circle(Color.gray, 0.99f, 10, (int)radius, (int)radius, true));
 	}
 	
 	public void addHiHatCymbalClosed(){
 		sound.hiHatCymbal(false);
-		shapes.add(new Shape_Circle(Color.magenta, 0.99f, 20, 0, 0, true));
+		shapes.add(new Shape_Circle(Color.pink, 0.99f, 20, 0, 0, true));
 	}
 	
 	public void addHiHatCymbalOpen(){

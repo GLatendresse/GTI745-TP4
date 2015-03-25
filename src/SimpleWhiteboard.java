@@ -1284,7 +1284,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 
 	private Sound sound = new Sound();
 	private Chromaesthesia chroma = new Chromaesthesia();
-	private Drum drum = new Drum();
+	private Drum drum;
 	private DrumPart drumPart;
 	private Metronome metronome;
 	public MultitouchFramework multitouchFramework = null;
@@ -1305,16 +1305,13 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	UserContext [] userContexts = null;
 
 	public SimpleWhiteboard( MultitouchFramework mf, GraphicsWrapper gw ) {
-		
-		System.out.println("init Drum: " );
-		//drum.initializeDrum(1);
-		
+				
 		//Initialisation du métronome
-		metronome = new Metronome("Métronome", 100, 50, 100, 700, Color.lightGray, Color.magenta, 1000 );
-		
+		metronome = new Metronome("Métronome", 100, 50, (float)(gw.getWidth()/10.0), (float)(gw.getHeight() * 0.1), Color.lightGray, Color.magenta, 1000 );		
 		
 		multitouchFramework = mf;
 		this.gw = gw;
+		drum = new Drum(gw);
 		multitouchFramework.setPreferredWindowSize(Constant.INITIAL_WINDOW_WIDTH,Constant.INITIAL_WINDOW_HEIGHT);
 
 		userContexts = new UserContext[ Constant.NUM_USERS ];
@@ -1347,6 +1344,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					multitouchFramework.requestRedraw();
 			}};
 		 new Timer(15, counter).start();
+	}
+	
+	public Drum getDrum()
+	{
+		return drum;
 	}
 	
 	/*
@@ -1499,11 +1501,17 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		{
 			 dpart =  drum.getDrumPart(i);
 			 if( dpart != null)
-			{
+			 {
 				dpart.draw(gw);
-				//gw.drawCircle(200, 200, 50);
-			}
+			 }
 		}
+		
+		//TODO Draw encadrage de la zone du drum
+		gw.setColor(1,1,1);
+		gw.drawRect(drum.getDrumPostionX(), drum.getDrumPostionY(), drum.getDrumWidth(), drum.getDrumHeight());
+		
+		//TODO Draw Hihat line with the pedale
+		drum.drawLineHihat();
 		
 		//TODO Draw Metronome
 		
@@ -1548,10 +1556,8 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			
 			if(!metronome.isActivated()){
 				
-				metronome.activate();
-				
-			}
-			
+				metronome.activate();	
+			}			
 			else{
 				
 				metronome.desactivate();

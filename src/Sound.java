@@ -62,13 +62,14 @@ public class Sound {
 	
 	public void hiHatCymbal(boolean open){
 		if (open)
-			playSound(46);
+			//playSound(46);
+			playSound(56);
 		else
 			playSound(42);
 	}
 	
 	public void hiHatPedal(){
-		playSound(44);
+		playSound(56);
 	}
 	
 	public void rideCymbal(boolean alt){

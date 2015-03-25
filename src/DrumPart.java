@@ -21,7 +21,7 @@ public class DrumPart
 	private Color backgroundColor;
 	private Color actionColor; //Couleur qui apparait quand l'utlisateur touche la partie de ce drum.
 	private boolean playState; //Détermine si l'instrument est activé/désactivé pour jouer
-	private boolean cymbalHihatState; //Détermine si la symbale (Hi-hat) est monté par sa pédale ou pas 
+	private boolean cymbalHihatIsOpen = false; //Détermine si la symbale (Hi-hat) est monté par sa pédale ou pas 
 	private Sound sound = new Sound();
 	public Chromaesthesia chroma = new Chromaesthesia();
 	
@@ -35,7 +35,6 @@ public class DrumPart
 		this.actionColor = Color.white;
 		this.backgroundColor = Color.white;
 		this.playState = true;
-		this.cymbalHihatState = false;
 		//sound = new Sound();
 	}
 	
@@ -49,28 +48,27 @@ public class DrumPart
 		this.actionColor = colorAction;
 		this.backgroundColor = colorBackground;
 		this.playState = true;
-		this.cymbalHihatState = false;
 	}
 	
 	public void setName(String name){ this.name = name; }
 	public void setType(int type){ this.type = type; }
-	public void setradius(float radius){ this.radius = radius; }
+	public void setRadius(float radius){ this.radius = radius; }
 	public void setCenterX(float centerX){ this.centerX = centerX; }
 	public void setCenterY(float centerY){ this.centerY = centerY; }
 	public void setBackgroundColor(Color color){ this.backgroundColor = color; }
 	public void setActionColor(Color color){ this.actionColor = color; }
 	public void setPlayState(boolean playState){ this.playState = playState; }
-	public void setCymbalHihatState(boolean cymbalHihatState){ this.cymbalHihatState = cymbalHihatState; }
+	public void setCymbalHihatOpening(boolean isOpen){ this.cymbalHihatIsOpen = isOpen; }
 	
 	public String getName(){ return this.name; }
 	public int setType(){ return this.type; }
-	public float getradius(){ return this.radius; }
+	public float getRadius(){ return this.radius; }
 	public float getCenterX(){ return this.centerX; }
 	public float getCenterY(){ return this.centerY; }
 	public Color getBackgroundColor(Color color){ return this.backgroundColor; }
 	public Color getActionColor(Color color){ return this.actionColor;  }	
 	public boolean getPlayState(){ return this.playState; }
-	public boolean getCymbalHihatState(){ return this.cymbalHihatState; }
+	public boolean getCymbalHihatOpening(){ return this.cymbalHihatIsOpen; }
 	
 	public void playSound()
 	{
@@ -92,7 +90,7 @@ public class DrumPart
 			chroma.addSnare();
 			break;
 		case HIHAT_CYMBAL:
-				if(cymbalHihatState)
+				if(cymbalHihatIsOpen)
 					chroma.addHiHatCymbalOpen();
 				else
 					chroma.addHiHatCymbalClosed();
@@ -104,7 +102,14 @@ public class DrumPart
 			chroma.addRideCymbal();
 			break;
 		case HIHAT_PEDAL:
-			chroma.addHiHatPedal();
+			
+			/*
+			if(cymbalHihatIsOpen)
+				cymbalHihatIsOpen = false;
+			else
+				cymbalHihatIsOpen = true;
+			*/
+			chroma.addHiHatPedal(radius);
 			break;
 		default:
 
@@ -114,6 +119,64 @@ public class DrumPart
 	
 	public void drawChromaethesia(GraphicsWrapper gw){
 		chroma.draw(gw, (int)centerX, (int)centerY);
+	}
+	
+	public void changePosition(GraphicsWrapper gw, Drum drum)
+	{
+		if( gw != null && drum != null)
+		{
+			switch (type)
+			{
+			case BASS_DRUM :
+				radius = 100.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() *0.55);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight());
+				break;
+			case FLOOR_TOM_TOM:
+				radius = 50.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.90);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.80);
+				break;
+			case MIDDLE_TOM_TOM:
+				radius = 50.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.75);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.50);
+				break;
+			case HIGH_TOM_TOM:
+				radius = 50.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.50);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.50);
+				break;
+			case HIHAT_CYMBAL:
+				radius =  40.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() /  10.0);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.4);
+				break;
+			case CRASH_SYMBAL:
+				radius =  40.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.3);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.2);
+				break;
+			case RIDE_SYMBAL:
+				radius =  40.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.8);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.2);
+				break;
+			case SNARE_DRUM:
+				radius = 60.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.25);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.70);
+				break;
+			case HIHAT_PEDAL:
+				radius = 20.0f;
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.05);
+				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.85);
+				break;
+			default:
+	
+				break;
+			}
+		}
 	}
 	
 	public void draw(GraphicsWrapper gw)
@@ -142,7 +205,15 @@ public class DrumPart
 		case HIHAT_CYMBAL:
 			//gw.fillCenteredCircle(centerX, centerY, radius, backgroundColor);
 			gw.drawCenteredCircle(centerX, centerY, radius, true);
-			gw.setColor(0, 0, 0);
+			
+			if(! cymbalHihatIsOpen )
+			{
+				gw.setColor(0, 0, 0);
+			}
+			else
+			{
+				gw.setColor(1, 1, 1);
+			}
 			gw.drawCenteredCircle(centerX, centerY, radius*0.6f);
 			gw.drawCenteredCircle(centerX, centerY, radius*0.3f);
 			
