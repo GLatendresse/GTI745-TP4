@@ -62,14 +62,13 @@ public class Sound {
 	
 	public void hiHatCymbal(boolean open){
 		if (open)
-			//playSound(46);
-			playSound(56);
+			playSound(46);
 		else
 			playSound(42);
 	}
 	
 	public void hiHatPedal(){
-		playSound(56);
+		playSound(46);
 	}
 	
 	public void rideCymbal(boolean alt){
@@ -90,8 +89,9 @@ public class Sound {
 		playSound(56);
 	}
 	
-	
-	public static void main( String[] args ) {
+	//Fonction pour tester les sons
+	public static void SoundTest()
+	{
 		int duration = 200; // en millisecondes
 		boolean alt = false;
 		Sound s = new Sound();
@@ -140,6 +140,10 @@ public class Sound {
 			e.printStackTrace();
 		}
 		//percussionChannel.noteOff( 38 );
-		
+	}
+	
+	
+	public static void main( String[] args ) {	
+		SoundTest();
 	}
 }

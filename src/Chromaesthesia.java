@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.sun.jmx.snmp.tasks.ThreadService;
+
 
 
 public class Chromaesthesia {
@@ -15,7 +17,7 @@ public class Chromaesthesia {
 		sound = new Sound();
 	}
 	
-	public void addBass(){
+	public void addBass() throws InterruptedException{
 		sound.bassDrum(false);
 		shapes.add(new Shape_Oval(Color.red, 0.99f, 30, 0, 0, true));
 	}
@@ -45,12 +47,12 @@ public class Chromaesthesia {
 		shapes.add(new Shape_Circle(Color.gray, 0.99f, 10, (int)radius, (int)radius, true));
 	}
 	
-	public void addHiHatCymbalClosed(){
+	public void addHiHatCymbalClosed() throws InterruptedException{
 		sound.hiHatCymbal(false);
-		shapes.add(new Shape_Circle(Color.pink, 0.99f, 20, 0, 0, true));
+		shapes.add(new Shape_Circle(Color.magenta, 0.99f, 20, 0, 0, true));
 	}
 	
-	public void addHiHatCymbalOpen(){
+	public void addHiHatCymbalOpen() throws InterruptedException{
 		sound.hiHatCymbal(true);
 		shapes.add(new Shape_Circle(Color.magenta, 0.99f, 30, 0, 0, true));
 	}

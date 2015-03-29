@@ -164,7 +164,12 @@ public class MultitouchFramework
 	public void mousePressed( MouseEvent e ) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
-		client.mousePressed(e);
+		try {
+			client.mousePressed(e);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		//System.out.println("mouse: " +  mouse_x + ": " + mouse_y); 
 		/*
 		if ( e.isControlDown() ) {
@@ -249,6 +254,7 @@ public class MultitouchFramework
 		System.out.println("reshape");
 		client.getDrum().gw = gw;
 		client.getDrum().initializeDrumPosition();
+		client.getMenu().changePositionButtons();
 		
 		for( int i=0; i <  client.getDrum().getDrumParts().size(); i++ )
 		{

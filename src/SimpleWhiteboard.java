@@ -1287,6 +1287,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	private Drum drum;
 	private DrumPart drumPart;
 	private Metronome metronome;
+	private Menu menu;
 	public MultitouchFramework multitouchFramework = null;
 	public GraphicsWrapper gw = null;
 	JMenuItem testMenuItem1;
@@ -1311,7 +1312,12 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		
 		multitouchFramework = mf;
 		this.gw = gw;
+		
+		//Initialisation du drum
 		drum = new Drum(gw);
+		//Initialisation du menu
+		menu = new Menu(gw);
+		
 		multitouchFramework.setPreferredWindowSize(Constant.INITIAL_WINDOW_WIDTH,Constant.INITIAL_WINDOW_HEIGHT);
 
 		userContexts = new UserContext[ Constant.NUM_USERS ];
@@ -1349,6 +1355,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	public Drum getDrum()
 	{
 		return drum;
+	}
+	
+	public Menu getMenu()
+	{
+		return menu;
 	}
 	
 	/*
@@ -1479,8 +1490,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			gw.setFontHeight( Constant.TEXT_HEIGHT );
 			gw.drawString(
 				Constant.TEXT_HEIGHT,
-				2 * Constant.TEXT_HEIGHT,
-				s
+				2 * Constant.TEXT_HEIGHT, s
 			);
 		}
 		
@@ -1506,6 +1516,9 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			 }
 		}
 		
+		//TODO Draw menu
+		menu.drawButtons();
+		
 		//TODO Draw encadrage de la zone du drum
 		gw.setColor(1,1,1);
 		gw.drawRect(drum.getDrumPostionX(), drum.getDrumPostionY(), drum.getDrumWidth(), drum.getDrumHeight());
@@ -1513,8 +1526,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		//TODO Draw Hihat line with the pedale
 		drum.drawLineHihat();
 		
-		//TODO Draw Metronome
-		
+		//TODO Draw Metronome	
 		metronome.drawChromaethesia(gw);
 		metronome.draw(gw);
 		
@@ -1551,21 +1563,29 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		mouse_x = e.getX();
 		mouse_y = e.getY();
 		
-		if((mouse_x <= metronome.getCenterX()+metronome.getWidth() && mouse_x >= metronome.getCenterX()) 
-				&&  (mouse_y <= metronome.getCenterY()+metronome.getHeight() && mouse_y >= metronome.getCenterY())){
-			
-			if(!metronome.isActivated()){
-				
-				metronome.activate();	
-			}			
-			else{
-				
-				metronome.desactivate();
-				
-			}
-		
+		Buttons button;
+		button = menu.getButtonMouseClicked(mouse_x, mouse_y);
+		if( button != null )
+		{
+			button.doFunction(drum);
 		}
-		
+		else
+		{
+			if((mouse_x <= metronome.getCenterX()+metronome.getWidth() && mouse_x >= metronome.getCenterX()) 
+					&&  (mouse_y <= metronome.getCenterY()+metronome.getHeight() && mouse_y >= metronome.getCenterY())){
+				
+				if(!metronome.isActivated()){
+					
+					metronome.activate();	
+				}			
+				else{
+					
+					metronome.desactivate();
+					
+				}
+			
+			}
+		}
 		/*
 		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
 		
@@ -1576,16 +1596,20 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	}
 
 
-	public synchronized void mousePressed(MouseEvent e) {
+	public synchronized void mousePressed(MouseEvent e) throws InterruptedException {
 
+	//	DrumPart DrumPart2;
 		mouse_x = e.getX();
 		mouse_y = e.getY();
 		
 		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
+	//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
 		
 		if( drumPart != null)
 		{
 			drumPart.playSound();
+			//Thread.sleep(1000);
+			//DrumPart2.playSound();
 		}
 		// multitouchFramework.requestRedraw();
 	}

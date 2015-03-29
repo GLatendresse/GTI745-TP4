@@ -65,12 +65,12 @@ public class DrumPart
 	public float getRadius(){ return this.radius; }
 	public float getCenterX(){ return this.centerX; }
 	public float getCenterY(){ return this.centerY; }
-	public Color getBackgroundColor(Color color){ return this.backgroundColor; }
-	public Color getActionColor(Color color){ return this.actionColor;  }	
+	public Color getBackgroundColor(){ return this.backgroundColor; }
+	public Color getActionColor(){ return this.actionColor;  }	
 	public boolean getPlayState(){ return this.playState; }
 	public boolean getCymbalHihatOpening(){ return this.cymbalHihatIsOpen; }
 	
-	public void playSound()
+	public void playSound() throws InterruptedException
 	{
 		switch (type)
 		{
@@ -154,12 +154,12 @@ public class DrumPart
 				break;
 			case CRASH_SYMBAL:
 				radius =  40.0f;
-				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.3);
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.8);
 				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.2);
 				break;
 			case RIDE_SYMBAL:
 				radius =  40.0f;
-				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.8);
+				centerX = (float)(drum.getDrumPostionX() + drum.getDrumWidth() * 0.3);
 				centerY = (float)(drum.getDrumPostionY() + drum.getDrumHeight() * 0.2);
 				break;
 			case SNARE_DRUM:

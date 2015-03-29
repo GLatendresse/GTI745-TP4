@@ -108,7 +108,7 @@ public class Drum
 	public void initializeDrumPosition()
 	{
 		System.out.println("init drum");
-		setDrumPostionX( 0.0f );
+		setDrumPostionX( (float)(gw.getWidth()/4.0) );
 		setDrumPostionY( (float)(gw.getHeight()/4.0) );
 		setDrumWidth( (float)(gw.getWidth()/2.0) );
 		setDrumHeight( (float)(gw.getHeight()/2.0) );

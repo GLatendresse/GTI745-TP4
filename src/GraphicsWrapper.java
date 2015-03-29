@@ -49,9 +49,6 @@ class GraphicsWrapper {
 	//TODO:
 	public double getAngleBetweenTwoLines( Point2D pointCentre, Point2D pointDistant1, Point2D pointDistant2 ){
 		
-		System.out.println("point centre:" + pointCentre.x() + " " + pointCentre.y());
-		System.out.println("point1:" + pointDistant1.x() + " " + pointDistant1.y());
-		System.out.println("point2:" + pointDistant2.x() + " " + pointDistant2.y());
 		double angle = 0.0f; //Angle en radian entre les 2 lignes
 		double angleRad = 0.0f;
 		float x1 = pointDistant1.x() - pointCentre.x();
