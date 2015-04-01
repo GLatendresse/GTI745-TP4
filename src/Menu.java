@@ -48,7 +48,7 @@ public class Menu
 			button = listButtons.get(i);
 			gw.setColor(button.getBackgroundColor());
 			gw.drawCenteredCircle(button.getCenterX(), button.getCenterY(), button.getRadius(), true);
-			gw.setColor(Color.WHITE);
+			gw.setColor(Color.black);
 			gw.drawString(button.getCenterX() - button.getRadius(), button.getCenterY(), button.getName());
 		}
 	}
