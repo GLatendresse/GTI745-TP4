@@ -11,7 +11,9 @@ import java.io.IOException;
 public class Buttons 
 {
 	public static final int BUTTON_IMPORT = 1; 
-	public static final int BUTTON_EXPORT = 2; 
+	public static final int BUTTON_EXPORT = 2;
+	public static final int BUTTON_PLAY = 3; 
+	public static final int BUTTON_STOP = 4; 
 	
 	public static final int BASS_DRUM = 1; 
 	public static final int FLOOR_TOM_TOM = 2; 
@@ -58,8 +60,10 @@ public class Buttons
 		switch (type)
 		{
 		case BUTTON_IMPORT:
-
+			
+			
 			FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
+			File file = null;
 			fd.setDirectory("C:\\");
 			fd.setFile("*");
 			fd.setVisible(true);
@@ -71,8 +75,14 @@ public class Buttons
 			}
 			else
 			{
-			   System.out.println("You chose " + filePath +  filename); 
-			   readFile( drum, filePath +  filename );
+				System.out.println("You chose " + filePath); 
+				filePath += filename;
+				file = new File(filePath);
+				if( file.exists() )
+				{
+					drum.getAnimation().initializeNotes(filePath);
+				}
+			  // readFile( drum, filePath +  filename );
 			  // playDemo(drum);
 			}
 
@@ -80,6 +90,12 @@ public class Buttons
 			break;
 		case BUTTON_EXPORT:
 			
+			break;
+		case BUTTON_PLAY:
+			drum.getAnimation().playAnimation();
+			break;
+		case BUTTON_STOP:
+			drum.getAnimation().stopAnimation();
 			break;
 		default:
 			

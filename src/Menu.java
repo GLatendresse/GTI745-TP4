@@ -18,14 +18,26 @@ public class Menu
 	
 	public void initializeMenu()
 	{
-		Buttons btn1 = new Buttons(1, 40.0f, 30.0f, 30.0f, "Import", Color.green );
+		Buttons btn1 = new Buttons(1, 40.0f, 30.0f, 30.0f, "Import", Color.lightGray );
 		listButtons.add(btn1);
+		
+		Buttons btn2 = new Buttons(2, 40.0f, 30.0f, 30.0f, "Export", Color.lightGray );
+		listButtons.add(btn2);
+		
+		Buttons btn3 = new Buttons(3, 40.0f, 30.0f, 30.0f, "Play", Color.green );
+		listButtons.add(btn3);
+		
+		Buttons btn4 = new Buttons(4, 40.0f, 30.0f, 30.0f, "Stop", Color.red );
+		listButtons.add(btn4);
 	}
 	
 	public void changePositionButtons()
 	{
-		listButtons.get(0).setCenterX((float)(gw.getWidth() * 0.2));
-		listButtons.get(0).setCenterY((float)(gw.getHeight() * 0.05));
+		for(int i =0; i < listButtons.size(); i++ )
+		{
+			listButtons.get(i).setCenterX((float)(gw.getWidth() * 0.1 * (i+1) + gw.getWidth() * 0.1) );
+			listButtons.get(i).setCenterY((float)(gw.getHeight() * 0.05));
+		}
 	}
 	
 	public void drawButtons()

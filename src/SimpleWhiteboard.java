@@ -1288,8 +1288,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	private DrumPart drumPart;
 	private Metronome metronome;
 	private Menu menu;
+	private int ittAnimation = 0;
+	private int tempsRestant = 0;
 	public MultitouchFramework multitouchFramework = null;
 	public GraphicsWrapper gw = null;
+
 	JMenuItem testMenuItem1;
 	JMenuItem testMenuItem2;
 	JButton frameAllButton;
@@ -1344,12 +1347,58 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 
 		gw.frame( new AlignedRectangle2D( new Point2D(-100,-100), new Point2D(100,100) ), true );
 		
-		ActionListener counter = new ActionListener() {
+		ActionListener counter = new ActionListener()
+		{
 			public void actionPerformed(ActionEvent evt) 
 			{ 
-					multitouchFramework.requestRedraw();
-			}};
-		 new Timer(15, counter).start();
+				playAnimation();
+				multitouchFramework.requestRedraw();
+			}
+		};
+		 new Timer(30, counter).start();
+	}
+	
+	public void playAnimation()
+	{
+		Animation animation = drum.getAnimation();
+		Note note = null;
+		if( animation != null && animation.isAnimationPlay() )
+		{
+			try 
+			{
+				if (tempsRestant == 0)
+				{
+					note = animation.getNote(ittAnimation);
+					if( note != null )
+					{
+				        drum.getDrumPart( note.getIdInstrument() ).playSound();
+				        ittAnimation++;
+				        if (ittAnimation < animation.getNotes().size())
+				        {
+				            tempsRestant = note.getDuration();
+				        }
+				        else
+				        {
+				        	ittAnimation = 0;
+				        	animation.stopAnimation();
+				        }
+					}
+					else
+					{
+						animation.stopAnimation();
+					}
+				}
+			    else
+			    {
+			        tempsRestant -= 50;
+			    }
+			} 
+			catch (InterruptedException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public Drum getDrum()

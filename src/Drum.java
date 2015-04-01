@@ -11,6 +11,7 @@ public class Drum
 	public static final int HIHAT_PEDAL = 9; 
 	
 	private List<DrumPart> drumParts;
+	private Animation animation;
 	public GraphicsWrapper gw = null;
 	
 	private float drumPositionX = 0.0f;
@@ -24,6 +25,7 @@ public class Drum
 		this.gw = gw;
 		System.out.println("contruct");
 		drumParts = new ArrayList<DrumPart>();
+		animation = new Animation();
 		//initializeDrumPosition();
 		initializeDrum();
 	}
@@ -32,11 +34,15 @@ public class Drum
 	public void setDrumPostionY(float posY){ drumPositionY = posY; }
 	public void setDrumWidth(float width){  drumWidth = width; }
 	public void setDrumHeight(float height){ drumHeight = height; }
+	public void setAnimation(Animation anime){ animation = anime; }
 	
 	public float getDrumPostionX(){ return drumPositionX; }
 	public float getDrumPostionY(){ return drumPositionY; }
 	public float getDrumWidth(){  return drumWidth; }
 	public float getDrumHeight(){ return drumHeight; }
+	public Animation getAnimation(){ return animation; }
+	
+
 	
 	public DrumPart getDrumPart(int indexPart)
 	{
