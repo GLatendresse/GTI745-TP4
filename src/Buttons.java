@@ -67,27 +67,18 @@ public class Buttons
 	
 	public void doFunction(Drum drum)
 	{
-		System.err.println("ECH");
 		switch (type)
 		{
+
 		case BUTTON_IMPORT:
 			
-			System.err.println("LAWL");
-			
 			FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
-			System.err.println("1");
 			File file = null;
-			System.err.println("2");
 			fd.setDirectory("C:\\");
-			System.err.println("3");
 			fd.setFile("*");
-			System.err.println("4");
 			fd.setVisible(true);
-			System.err.println("5");
 			String filename = fd.getFile();
-			System.err.println("6");
 			String filePath = fd.getDirectory();
-			System.err.println("7");
 			if (filename == null)
 			{
 			  System.out.println("You cancelled the choice");
