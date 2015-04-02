@@ -33,13 +33,16 @@ public class Menu
 		
 		Buttons btn4 = new Buttons(4, 40.0f, 30.0f, 30.0f, "Stop", Color.red );
 		listButtons.add(btn4);
+		
+		Buttons btn5 = new Buttons(1, 40.0f, 30.0f, 30.0f, "Record", Color.orange );
+		listButtons.add(btn5);
 	}
 	
 	public void changePositionButtons()
 	{
 		for(int i =0; i < listButtons.size(); i++ )
 		{
-			listButtons.get(i).setCenterX((float)(gw.getWidth() * 0.08 * (i+1) + gw.getWidth() * 0.1) );
+			listButtons.get(i).setCenterX((float)(gw.getWidth() * 0.07 * (i+1) + gw.getWidth() * 0.08) );
 			listButtons.get(i).setCenterY((float)(gw.getHeight() * 0.05));
 		}
 	}
@@ -87,8 +90,6 @@ public class Menu
 		if( drum.getAnimation().getTotalDuration() != 0 )
 		{
 			posAnimeLine = (float)((float)(drum.getAnimation().getCurrentTime()) / (float)(drum.getAnimation().getTotalDuration()));
-			System.out.println("Anime: " + drum.getAnimation().getCurrentTime() + " / " + drum.getAnimation().getTotalDuration() + " = " + posAnimeLine );
-
 		}
 		gw.drawLine((float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05), (float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05 + 80));
 		//gw.fillRect((float)((gw.getWidth() * 0.52)), (float)(gw.getHeight() * 0.05), (float)(400 * posAnimeLine), (float)(gw.getHeight() * 0.05 + 80));
@@ -124,14 +125,7 @@ public class Menu
 			distance = Math.sqrt( Math.pow( mouseX- button.getCenterX(), 2) +  Math.pow( mouseY - button.getCenterY(), 2) );
 			if( distance <= button.getRadius() )
 			{
-				if( i > 0 )
-				{
-					return button;
-				}
-				else if( mouseY <=  button.getCenterY() )
-				{
-					return button;
-				}
+				return button;
 			}
 		}
 		return null;

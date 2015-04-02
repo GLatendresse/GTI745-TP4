@@ -12,6 +12,7 @@ public class Drum
 	
 	private List<DrumPart> drumParts;
 	private Animation animation;
+	private Recording recording;
 	private String fileName = "Aucun fichier de selectionner";
 	public GraphicsWrapper gw = null;
 	
@@ -36,6 +37,7 @@ public class Drum
 	public void setDrumHeight(float height){ drumHeight = height; }
 	public void setAnimation(Animation anime){ animation = anime; }
 	public void setFileName(String filename){ this.fileName = filename; } 
+	public void setRecording(Recording record){ recording = record; }
 	
 	public float getDrumPostionX(){ return drumPositionX; }
 	public float getDrumPostionY(){ return drumPositionY; }
@@ -43,6 +45,7 @@ public class Drum
 	public float getDrumHeight(){ return drumHeight; }
 	public Animation getAnimation(){ return animation; }
 	public String getFileName(){ return this.fileName; } 
+	public Recording getRecording(){ return recording; }
 
 
 	

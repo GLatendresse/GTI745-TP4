@@ -13,7 +13,8 @@ public class Buttons
 	public static final int BUTTON_IMPORT = 1; 
 	public static final int BUTTON_EXPORT = 2;
 	public static final int BUTTON_PLAY = 3; 
-	public static final int BUTTON_STOP = 4; 
+	public static final int BUTTON_STOP = 4;
+	public static final int BUTTON_RECORD = 5; 
 	
 	public static final int BASS_DRUM = 1; 
 	public static final int FLOOR_TOM_TOM = 2; 
@@ -109,6 +110,9 @@ public class Buttons
 			break;
 		case BUTTON_STOP:
 			drum.getAnimation().stopAnimation();
+			break;
+		case BUTTON_RECORD:
+			
 			break;
 		default:
 			
