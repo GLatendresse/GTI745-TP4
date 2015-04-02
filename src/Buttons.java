@@ -53,7 +53,17 @@ public class Buttons
 	public float getRadius(){ return this.radius; }
 	public float getCenterX(){ return this.centerX; }
 	public float getCenterY(){ return this.centerY; }
-	public Color getBackgroundColor(){ return this.backgroundColor; }
+	
+	public Color getBackgroundColor()
+	{ 
+		/*
+		if( type == BUTTON_PLAY && drum.getAnimation() )
+		{
+			
+		}
+		else */
+		return this.backgroundColor; 
+	}
 	
 	public void doFunction(Drum drum)
 	{
@@ -80,6 +90,7 @@ public class Buttons
 				file = new File(filePath);
 				if( file.exists() )
 				{
+					drum.setFileName(filename);
 					drum.getAnimation().initializeNotes(filePath);
 				}
 			  // readFile( drum, filePath +  filename );
@@ -92,7 +103,10 @@ public class Buttons
 			
 			break;
 		case BUTTON_PLAY:
-			drum.getAnimation().playAnimation();
+			if( drum.getAnimation().isAnimationInPause() )
+				drum.getAnimation().playAnimation();
+			else
+				drum.getAnimation().pauseAnimation();
 			break;
 		case BUTTON_STOP:
 			drum.getAnimation().stopAnimation();

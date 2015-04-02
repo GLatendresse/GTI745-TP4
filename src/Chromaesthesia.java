@@ -64,7 +64,7 @@ public class Chromaesthesia {
 	
 	public void addCrashCymbal(){
 		sound.crashCymbal(false);
-		Shape_Circle s = new Shape_Circle(Color.yellow, 0.99f, 90, 0, 0, true);
+		Shape_Circle s = new Shape_Circle(Color.yellow, 0.99f, 45, 0, 0, true);
 		shapes.add(s);
 	}
 	

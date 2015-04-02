@@ -1319,7 +1319,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		//Initialisation du drum
 		drum = new Drum(gw);
 		//Initialisation du menu
-		menu = new Menu(gw);
+		menu = new Menu(gw, drum);
 		
 		multitouchFramework.setPreferredWindowSize(Constant.INITIAL_WINDOW_WIDTH,Constant.INITIAL_WINDOW_HEIGHT);
 
@@ -1355,14 +1355,14 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				multitouchFramework.requestRedraw();
 			}
 		};
-		 new Timer(30, counter).start();
+		 new Timer(60, counter).start();
 	}
 	
 	public void playAnimation()
 	{
 		Animation animation = drum.getAnimation();
 		Note note = null;
-		if( animation != null && animation.isAnimationPlay() )
+		if( animation != null && animation.isAnimationPlay() && ! animation.isAnimationInPause() )
 		{
 			try 
 			{
@@ -1376,16 +1376,19 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				        if (ittAnimation < animation.getNotes().size())
 				        {
 				            tempsRestant = note.getDuration();
+				            animation.setCurrentTime( tempsRestant +  animation.getCurrentTime());
 				        }
 				        else
 				        {
 				        	ittAnimation = 0;
 				        	animation.stopAnimation();
+				        	animation.setCurrentTime( 0 );
 				        }
 					}
 					else
 					{
 						animation.stopAnimation();
+						animation.setCurrentTime( 0 );
 					}
 				}
 			    else
@@ -1567,6 +1570,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		
 		//TODO Draw menu
 		menu.drawButtons();
+		menu.drawAnimationWidget();
 		
 		//TODO Draw encadrage de la zone du drum
 		gw.setColor(1,1,1);

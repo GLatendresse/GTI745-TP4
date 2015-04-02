@@ -12,6 +12,7 @@ public class Drum
 	
 	private List<DrumPart> drumParts;
 	private Animation animation;
+	private String fileName = "Aucun fichier de selectionner";
 	public GraphicsWrapper gw = null;
 	
 	private float drumPositionX = 0.0f;
@@ -23,7 +24,6 @@ public class Drum
 	{
 		// TODO Auto-generated method stub
 		this.gw = gw;
-		System.out.println("contruct");
 		drumParts = new ArrayList<DrumPart>();
 		animation = new Animation();
 		//initializeDrumPosition();
@@ -35,13 +35,15 @@ public class Drum
 	public void setDrumWidth(float width){  drumWidth = width; }
 	public void setDrumHeight(float height){ drumHeight = height; }
 	public void setAnimation(Animation anime){ animation = anime; }
+	public void setFileName(String filename){ this.fileName = filename; } 
 	
 	public float getDrumPostionX(){ return drumPositionX; }
 	public float getDrumPostionY(){ return drumPositionY; }
 	public float getDrumWidth(){  return drumWidth; }
 	public float getDrumHeight(){ return drumHeight; }
 	public Animation getAnimation(){ return animation; }
-	
+	public String getFileName(){ return this.fileName; } 
+
 
 	
 	public DrumPart getDrumPart(int indexPart)
@@ -74,12 +76,10 @@ public class Drum
 					{
 						if(drumPart.getCymbalHihatOpening())
 						{
-							System.out.println("hihat Open");
 							drumPart.setCymbalHihatOpening(false);
 						}
 						else
 						{
-							System.out.println("hihat close");
 							drumPart.setCymbalHihatOpening(true);
 						}
 						return drumPart;

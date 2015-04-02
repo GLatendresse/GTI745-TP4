@@ -29,7 +29,9 @@ public class Animation
 {
 	private List<Note> notes = new ArrayList<Note>();
 	private boolean isAnimationPlay = false;
+	private boolean isInPause = true;
 	private int durationTotal = 0;
+	private int currentTimeAnimation = 0;
 	
 	public Animation()
 	{
@@ -49,10 +51,10 @@ public class Animation
 			{
 			    while ((line = br.readLine()) != null)
 			    {
-			    	segment = line.split(":");
+			       segment = line.split(":");
 			       type = Integer.parseInt( segment[0] );
 			       dururation = Integer.parseInt( segment[1] );
-			       
+			       durationTotal += dururation;
 			       notes.add(new Note( type, dururation ) );
 			       // process the line.
 			    }
@@ -88,11 +90,21 @@ public class Animation
 	public void setTotalDuration( int duree ){ durationTotal = duree; }
 	public int getTotalDuration(){ return this.durationTotal; }
 	
+	public void setCurrentTime( int time ){ currentTimeAnimation = time; }
+	public int getCurrentTime(){ return this.currentTimeAnimation; }
+	
 	public boolean isAnimationPlay() { return isAnimationPlay; }
+	public boolean isAnimationInPause() { return isInPause; }
 	
 	public void playAnimation() 
 	{
 		isAnimationPlay = true;
+		isInPause = false;
+	}
+	
+	public void pauseAnimation()
+	{
+		isInPause = true;
 	}
 	
 	public void stopAnimation() 

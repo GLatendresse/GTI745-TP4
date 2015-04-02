@@ -6,11 +6,15 @@ import java.util.List;
 
 public class Menu 
 {
+	public static final int BUTTON_PLAY = 3; 
+	
 	private GraphicsWrapper gw = null;
 	private List<Buttons> listButtons;
+	private Drum drum;
 	
-	public Menu(GraphicsWrapper gw )
+	public Menu(GraphicsWrapper gw, Drum drum )
 	{
+		this.drum = drum;
 		this.gw = gw;
 		listButtons = new ArrayList<Buttons>();
 		initializeMenu();
@@ -35,7 +39,7 @@ public class Menu
 	{
 		for(int i =0; i < listButtons.size(); i++ )
 		{
-			listButtons.get(i).setCenterX((float)(gw.getWidth() * 0.1 * (i+1) + gw.getWidth() * 0.1) );
+			listButtons.get(i).setCenterX((float)(gw.getWidth() * 0.08 * (i+1) + gw.getWidth() * 0.1) );
 			listButtons.get(i).setCenterY((float)(gw.getHeight() * 0.05));
 		}
 	}
@@ -46,11 +50,54 @@ public class Menu
 		for(int i=0; i < listButtons.size(); i++ )
 		{
 			button = listButtons.get(i);
-			gw.setColor(button.getBackgroundColor());
-			gw.drawCenteredCircle(button.getCenterX(), button.getCenterY(), button.getRadius(), true);
-			gw.setColor(Color.WHITE);
-			gw.drawString(button.getCenterX() - button.getRadius(), button.getCenterY(), button.getName());
+			if( i == BUTTON_PLAY-1 && ! drum.getAnimation().isAnimationInPause()   )
+			{
+				gw.setColor(Color.YELLOW);
+				gw.drawCenteredCircle(button.getCenterX(), button.getCenterY(), button.getRadius(), true);
+				gw.setColor(Color.WHITE);
+				gw.drawString(button.getCenterX() - button.getRadius(), button.getCenterY(), "Pause");
+			}
+			else
+			{
+				gw.setColor(button.getBackgroundColor());
+				gw.drawCenteredCircle(button.getCenterX(), button.getCenterY(), button.getRadius(), true);
+				gw.setColor(Color.WHITE);
+				gw.drawString(button.getCenterX() - button.getRadius(), button.getCenterY(), button.getName());			
+			}
 		}
+	}
+	
+	public void drawAnimationWidget()
+	{
+		float posAnimeLine = 0.0f;
+		//dessine background widget
+		gw.setColor( Color.WHITE );
+		gw.fillRect((float)(gw.getWidth() * 0.5), 0, 460, 150);
+		
+		//dessine boite de l'animation
+		gw.setColor( Color.BLACK );
+		gw.drawRect((float)(gw.getWidth() * 0.52), (float)(gw.getHeight() * 0.05), 400, 80);
+		gw.drawLine((float)(gw.getWidth() * 0.52 + 100), (float)(gw.getHeight() * 0.05), (float)(gw.getWidth() * 0.52 + 100), (float)(gw.getHeight() * 0.05 + 80));
+		gw.drawLine((float)(gw.getWidth() * 0.52 + 200), (float)(gw.getHeight() * 0.05), (float)(gw.getWidth() * 0.52 + 200), (float)(gw.getHeight() * 0.05 + 80));
+		gw.drawLine((float)(gw.getWidth() * 0.52 + 300), (float)(gw.getHeight() * 0.05), (float)(gw.getWidth() * 0.52 + 300), (float)(gw.getHeight() * 0.05 + 80));
+		
+		//dessine ligne de l'animation
+		gw.setColor( Color.RED );
+		if( drum.getAnimation().getTotalDuration() != 0 )
+		{
+			posAnimeLine = (float)((float)(drum.getAnimation().getCurrentTime()) / (float)(drum.getAnimation().getTotalDuration()));
+			System.out.println("Anime: " + drum.getAnimation().getCurrentTime() + " / " + drum.getAnimation().getTotalDuration() + " = " + posAnimeLine );
+		}
+		gw.drawLine((float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05), (float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05 + 80));
+		//gw.fillRect((float)((gw.getWidth() * 0.52)), (float)(gw.getHeight() * 0.05), (float)(400 * posAnimeLine), (float)(gw.getHeight() * 0.05 + 80));
+		//dessine fileName 
+		gw.setColor( Color.BLACK );
+		gw.drawString((float)(gw.getWidth() * 0.52), (float)(gw.getHeight() * 0.02), drum.getFileName() );
+		gw.drawString((float)(gw.getWidth() * 0.52), (float)(gw.getHeight() * 0.05 + 100), "0" );
+		gw.drawString((float)(gw.getWidth() * 0.52 + 90), (float)(gw.getHeight() * 0.05 + 100), String.valueOf(  (drum.getAnimation().getTotalDuration() * 0.25)/1000 ) );
+		gw.drawString((float)(gw.getWidth() * 0.52 + 180), (float)(gw.getHeight() * 0.05 + 100), String.valueOf( (drum.getAnimation().getTotalDuration() * 0.5)/1000  )  );
+		gw.drawString((float)(gw.getWidth() * 0.52 + 270), (float)(gw.getHeight() * 0.05 + 100), String.valueOf( (drum.getAnimation().getTotalDuration() * 0.75)/1000  )  );
+		gw.drawString((float)(gw.getWidth() * 0.52 + 370), (float)(gw.getHeight() * 0.05 + 100), String.valueOf( (drum.getAnimation().getTotalDuration())/1000  ) + " sec" );
 	}
 	
 	public List<Buttons> getButtons()
