@@ -67,18 +67,27 @@ public class Buttons
 	
 	public void doFunction(Drum drum)
 	{
+		System.err.println("ECH");
 		switch (type)
 		{
 		case BUTTON_IMPORT:
 			
+			System.err.println("LAWL");
 			
 			FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
+			System.err.println("1");
 			File file = null;
+			System.err.println("2");
 			fd.setDirectory("C:\\");
+			System.err.println("3");
 			fd.setFile("*");
+			System.err.println("4");
 			fd.setVisible(true);
+			System.err.println("5");
 			String filename = fd.getFile();
+			System.err.println("6");
 			String filePath = fd.getDirectory();
+			System.err.println("7");
 			if (filename == null)
 			{
 			  System.out.println("You cancelled the choice");
@@ -114,44 +123,6 @@ public class Buttons
 		default:
 			
 			break;
-		}
-	}
-	
-	public void readFile(Drum drum, String fileName)
-	{
-		File file = new File(fileName);
-		String[] note;
-		int type = 0;
-		int duree = 0;
-		if( file.exists() )
-		{
-			try (BufferedReader br = new BufferedReader(new FileReader(file))) 
-			{
-			    String line;
-			    line = br.readLine();
-			    while ((line = br.readLine()) != null)
-			    {
-			       note = line.split(":");
-			       type = Integer.parseInt( note[0] );
-			       duree = Integer.parseInt( note[1] );
-					drum.getDrumPart(type).playSound();	
-					Thread.sleep( duree );
-			       // process the line.
-			    }
-			} 
-			catch (IOException ioe) 
-			{
-				ioe.printStackTrace();
-			} 
-			catch (InterruptedException ie) 
-			{
-				// TODO Auto-generated catch block
-				ie.printStackTrace();
-			}
-		}
-		else
-		{
-			System.out.println("fichier inexistant");
 		}
 	}
 	

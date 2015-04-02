@@ -1292,7 +1292,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	private int tempsRestant = 0;
 	public MultitouchFramework multitouchFramework = null;
 	public GraphicsWrapper gw = null;
-
+	
 	JMenuItem testMenuItem1;
 	JMenuItem testMenuItem2;
 	JButton frameAllButton;
@@ -1355,7 +1355,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				multitouchFramework.requestRedraw();
 			}
 		};
-		 new Timer(60, counter).start();
+		 new Timer(1000/60, counter).start();
 	}
 	
 	public void playAnimation()
@@ -1782,9 +1782,75 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		return indexOfClosestUserContext;
 	}
 
-	public synchronized void processMultitouchInputEvent( int id, float x, float y, int type ) {
+	public synchronized void processMultitouchInputEvent( int id, float x, float y, int type ){
 		//System.out.println("event: "+id+", "+x+", "+y+", "+type);
 
+		if (type == 0){
+		drumPart = drum.getDrumPartMouseClicked((int)x, (int)y);
+		//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
+			
+			if( drumPart != null)
+			{
+				try {
+					drumPart.playSound();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//Thread.sleep(1000);
+				//DrumPart2.playSound();
+			}
+			// multitouchFramework.requestRedraw();
+			
+			Buttons button;
+			button = menu.getButtonMouseClicked((int)x, (int)y);
+			if( button != null )
+			{
+				button.doFunction(drum);
+			}
+			else
+			{	
+				//Activer metronome
+				if((x <= metronome.getCenterX()+metronome.getWidth() && x >= metronome.getCenterX()) 
+						&&  (y <= metronome.getCenterY()+metronome.getHeight() && y >= metronome.getCenterY())){
+					
+					if(!metronome.isActivated()){
+						
+						metronome.activate();	
+					}			
+					else{
+						
+						metronome.desactivate();
+						
+					}
+				
+				}
+				//Activer le moins du metronome
+				if((x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && x >= metronome.getMinusCenterX()) 
+						&&  (y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && y >= metronome.getMinusCenterY())){
+					
+					if(metronome.isActivated() && metronome.getBeat() > 50){
+						
+						metronome.setBeat(metronome.getBeat() - 50);	
+					}			
+					
+				}
+				
+				//Activer le plus du metronome
+				if((x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && x >= metronome.getPlusCenterX()) 
+						&&  (y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && y >= metronome.getPlusCenterY())){
+					
+					if(metronome.isActivated()){
+						
+						metronome.setBeat(metronome.getBeat() + 50);
+						
+					}				
+					
+				}
+				
+			}
+		
+		
 		int indexOfUserContext = findIndexOfUserContextForMultitouchInputEvent( id, x, y );
 
 		boolean doOtherUserContextsHaveCursors = false;
@@ -1798,7 +1864,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		boolean redrawRequested = userContexts[indexOfUserContext].processMultitouchInputEvent( id, x, y, type, gw, doOtherUserContextsHaveCursors );
 		if ( redrawRequested )
 			multitouchFramework.requestRedraw();
-	}
+	}}
 }
 
 

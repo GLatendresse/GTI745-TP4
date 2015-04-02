@@ -87,7 +87,7 @@ public class Menu
 		if( drum.getAnimation().getTotalDuration() != 0 )
 		{
 			posAnimeLine = (float)((float)(drum.getAnimation().getCurrentTime()) / (float)(drum.getAnimation().getTotalDuration()));
-			System.out.println("Anime: " + drum.getAnimation().getCurrentTime() + " / " + drum.getAnimation().getTotalDuration() + " = " + posAnimeLine );
+			//System.out.println("Anime: " + drum.getAnimation().getCurrentTime() + " / " + drum.getAnimation().getTotalDuration() + " = " + posAnimeLine );
 
 		}
 		gw.drawLine((float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05), (float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05 + 80));
