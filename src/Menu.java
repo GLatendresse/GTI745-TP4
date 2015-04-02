@@ -50,6 +50,7 @@ public class Menu
 		for(int i=0; i < listButtons.size(); i++ )
 		{
 			button = listButtons.get(i);
+
 			if( i == BUTTON_PLAY-1 && ! drum.getAnimation().isAnimationInPause()   )
 			{
 				gw.setColor(Color.YELLOW);
@@ -87,6 +88,7 @@ public class Menu
 		{
 			posAnimeLine = (float)((float)(drum.getAnimation().getCurrentTime()) / (float)(drum.getAnimation().getTotalDuration()));
 			System.out.println("Anime: " + drum.getAnimation().getCurrentTime() + " / " + drum.getAnimation().getTotalDuration() + " = " + posAnimeLine );
+
 		}
 		gw.drawLine((float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05), (float)((gw.getWidth() * 0.52) + (400 * posAnimeLine)), (float)(gw.getHeight() * 0.05 + 80));
 		//gw.fillRect((float)((gw.getWidth() * 0.52)), (float)(gw.getHeight() * 0.05), (float)(400 * posAnimeLine), (float)(gw.getHeight() * 0.05 + 80));

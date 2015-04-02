@@ -1311,7 +1311,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	public SimpleWhiteboard( MultitouchFramework mf, GraphicsWrapper gw ) {
 				
 		//Initialisation du métronome
-		metronome = new Metronome("Métronome", 100, 50, (float)(gw.getWidth()/10.0), (float)(gw.getHeight() * 0.1), Color.lightGray, Color.magenta, 1000 );		
+		metronome = new Metronome("Metronome", 100, 50, (float)(gw.getWidth()/10.0), (float)(gw.getHeight() * 0.1), Color.lightGray, Color.magenta, 500 );		
 		
 		multitouchFramework = mf;
 		this.gw = gw;
@@ -1623,7 +1623,8 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			button.doFunction(drum);
 		}
 		else
-		{
+		{	
+			//Activer metronome
 			if((mouse_x <= metronome.getCenterX()+metronome.getWidth() && mouse_x >= metronome.getCenterX()) 
 					&&  (mouse_y <= metronome.getCenterY()+metronome.getHeight() && mouse_y >= metronome.getCenterY())){
 				
@@ -1638,6 +1639,29 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				}
 			
 			}
+			//Activer le moins du metronome
+			if((mouse_x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && mouse_x >= metronome.getMinusCenterX()) 
+					&&  (mouse_y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && mouse_y >= metronome.getMinusCenterY())){
+				
+				if(metronome.isActivated() && metronome.getBeat() > 50){
+					
+					metronome.setBeat(metronome.getBeat() - 50);	
+				}			
+				
+			}
+			
+			//Activer le plus du metronome
+			if((mouse_x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && mouse_x >= metronome.getPlusCenterX()) 
+					&&  (mouse_y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && mouse_y >= metronome.getPlusCenterY())){
+				
+				if(metronome.isActivated()){
+					
+					metronome.setBeat(metronome.getBeat() + 50);
+					
+				}				
+				
+			}
+			
 		}
 		/*
 		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
@@ -1665,12 +1689,53 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			//DrumPart2.playSound();
 		}
 		// multitouchFramework.requestRedraw();
+		
+		if((mouse_x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && mouse_x >= metronome.getMinusCenterX()) 
+				&&  (mouse_y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && mouse_y >= metronome.getMinusCenterY())){
+			
+			if(metronome.isActivated() && metronome.getBeat() > 50){
+				
+				metronome.minusPressed();	
+			}			
+			
+		}
+		
+		if((mouse_x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && mouse_x >= metronome.getPlusCenterX()) 
+				&&  (mouse_y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && mouse_y >= metronome.getPlusCenterY())){
+			
+			if(metronome.isActivated()){
+				
+				metronome.plusPressed();	
+			}				
+			
+		}
+		
 	}
 
 	public synchronized void mouseReleased(MouseEvent e) {
 		mouse_x = e.getX();
 		mouse_y = e.getY();
-
+		
+		if((mouse_x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && mouse_x >= metronome.getMinusCenterX()) 
+				&&  (mouse_y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && mouse_y >= metronome.getMinusCenterY())){
+			
+			if(metronome.minusIsPressed()){
+				
+				metronome.minusUnpressed();	
+			}			
+			
+		}
+		
+		if((mouse_x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && mouse_x >= metronome.getPlusCenterX()) 
+				&&  (mouse_y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && mouse_y >= metronome.getPlusCenterY())){
+			
+			if(metronome.plusIsPressed()){
+				
+				metronome.plusUnpressed();	
+			}			
+			
+		}
+		
 		// multitouchFramework.requestRedraw();
 	}
 
