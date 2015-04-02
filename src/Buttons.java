@@ -69,8 +69,7 @@ public class Buttons
 	{
 		switch (type)
 		{
-		case BUTTON_IMPORT:
-			
+		case BUTTON_IMPORT:	
 			
 			FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
 			File file = null;
@@ -114,44 +113,6 @@ public class Buttons
 		default:
 			
 			break;
-		}
-	}
-	
-	public void readFile(Drum drum, String fileName)
-	{
-		File file = new File(fileName);
-		String[] note;
-		int type = 0;
-		int duree = 0;
-		if( file.exists() )
-		{
-			try (BufferedReader br = new BufferedReader(new FileReader(file))) 
-			{
-			    String line;
-			    line = br.readLine();
-			    while ((line = br.readLine()) != null)
-			    {
-			       note = line.split(":");
-			       type = Integer.parseInt( note[0] );
-			       duree = Integer.parseInt( note[1] );
-					drum.getDrumPart(type).playSound();	
-					Thread.sleep( duree );
-			       // process the line.
-			    }
-			} 
-			catch (IOException ioe) 
-			{
-				ioe.printStackTrace();
-			} 
-			catch (InterruptedException ie) 
-			{
-				// TODO Auto-generated catch block
-				ie.printStackTrace();
-			}
-		}
-		else
-		{
-			System.out.println("fichier inexistant");
 		}
 	}
 	
