@@ -1,6 +1,4 @@
 
-import java.util.ArrayList;
-
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -24,68 +22,18 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 //import com.sun.opengl.util.GLUT;
 
-
-class Finger {
-	public static final int FINGER_RADIUS = 15;
-	public Point2D position = new Point2D(); // in pixel coordinates
-	public int id;
-}
-class FingerContainer {
-	private ArrayList< Finger > fingers = new ArrayList< Finger >();
-
-	public int getNumFingers() { return fingers.size(); }
-	public Finger getFingerByIndex( int index ) { return fingers.get( index ); }
-
-	// returns -1 if no finger is under the given position
-	public int getIndexOfFingerUnderCursorPosition( int x, int y ) {
-		for ( int i = fingers.size()-1; i >= 0; --i ) {
-			Finger f = fingers.get(i);
-			float dx = f.position.x() - x;
-			float dy = f.position.y() - y;
-			float distanceSquared = dx*dx + dy*dy;
-			if ( distanceSquared < Finger.FINGER_RADIUS*Finger.FINGER_RADIUS )
-				return i;
-		}
-		return -1;
-	}
-	// returns index of newly created finger
-	public int createFinger( int x, int y ) {
-		Finger f = new Finger();
-		f.id = fingers.isEmpty() ? 0 : ( fingers.get(fingers.size()-1).id + 1 );
-		f.position.get()[0] = x;
-		f.position.get()[1] = y;
-		fingers.add( f );
-		return fingers.size()-1;
-	}
-	public void deleteFingerByIndex( int index ) {
-		fingers.remove( index );
-	}
-	public void drawFingers(
-		GraphicsWrapper gw,
-		int indexOfFingerToHilite // -1 if no finger is to be hilited
-	) {
-		gw.enableAlphaBlending();
-		gw.setCoordinateSystemToPixels();
-		for ( int i = 0; i < fingers.size(); ++i ) {
-			Finger f = fingers.get(i);
-			gw.setColor( 0, 0.5f, 0.5f, i==indexOfFingerToHilite ? 0.8f : 0.35f );
-			gw.drawCircle( f.position.x()-Finger.FINGER_RADIUS, f.position.y()-Finger.FINGER_RADIUS, Finger.FINGER_RADIUS );
-		}
-	}
-}
+import org.mt4j.input.inputSources.Win7NativeTouchSource;
 
 
 public class MultitouchFramework
 	extends GLJPanel
-	implements KeyListener, MouseListener, MouseMotionListener, GLEventListener
+	implements KeyListener, MouseListener, MouseMotionListener, GLEventListener, Runnable
 {
-	FingerContainer fingerContainer = new FingerContainer();
-	private boolean isFingerDraggingModeActive = false;
-	private int indexOfFingerUnderMouse = -1;
-	private int mouse_x, mouse_y;
-	public static final int TOUCH_EVENT_DOWN = 0;
-	public static final int TOUCH_EVENT_MOVE = 1;
-	public static final int TOUCH_EVENT_UP = 2;
+	private Thread multitouchPollingThread = null;
+	private Win7NativeTouchSource multitouchInterface = new Win7NativeTouchSource();
+	public static final int TOUCH_EVENT_DOWN = Win7NativeTouchSource.Native_WM_TOUCH_Event.TOUCH_DOWN;
+	public static final int TOUCH_EVENT_MOVE = Win7NativeTouchSource.Native_WM_TOUCH_Event.TOUCH_MOVE;
+	public static final int TOUCH_EVENT_UP = Win7NativeTouchSource.Native_WM_TOUCH_Event.TOUCH_UP;
 
 	private GraphicsWrapper gw = new GraphicsWrapper();
 	private SimpleWhiteboard client = null;
@@ -106,11 +54,11 @@ public class MultitouchFramework
 		super( caps );
 
 		createClient();
-			
+
 		addGLEventListener(this);
 		addKeyListener( this );
 		addMouseListener( this );
-		addMouseMotionListener( this ); 
+		addMouseMotionListener( this );
 	}
 	public Dimension getPreferredSize() {
 		return new Dimension( preferredWidth, preferredHeight );
@@ -129,15 +77,12 @@ public class MultitouchFramework
 	// so we don't call it.
 	//
 	public void keyPressed( KeyEvent e ) {
-		//System.out.println("key");
 		client.keyPressed(e);
 	}
 	public void keyReleased( KeyEvent e ) {
-		//System.out.println("key:");
 		client.keyReleased(e);
 	}
 	public void keyTyped( KeyEvent e ) {
-		//System.out.println("key:");
 		client.keyTyped(e);
 	}
 	public void mouseEntered( MouseEvent e ) {
@@ -148,98 +93,27 @@ public class MultitouchFramework
 	}
 	public void mouseClicked( MouseEvent e ) {
 		client.mouseClicked(e);
-		mouse_x = e.getX();
-		mouse_y = e.getY();
-		
-		//System.out.println("mouse: " +  mouse_x + ": " + mouse_y); 
-		
-	}
-	private void updateHiliting( int x, int y ) {
-		int newIndexOfFingerUnderMouse = fingerContainer.getIndexOfFingerUnderCursorPosition( x, y );
-		if ( newIndexOfFingerUnderMouse != indexOfFingerUnderMouse ) {
-			indexOfFingerUnderMouse = newIndexOfFingerUnderMouse;
-			requestRedraw();
-		}
 	}
 	public void mousePressed( MouseEvent e ) {
-		mouse_x = e.getX();
-		mouse_y = e.getY();
 		try {
 			client.mousePressed(e);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//System.out.println("mouse: " +  mouse_x + ": " + mouse_y); 
-		/*
-		if ( e.isControlDown() ) {
-			System.out.println("crtl appuyer");
-			if ( indexOfFingerUnderMouse == -1 ) {
-				indexOfFingerUnderMouse = fingerContainer.createFinger( e.getX(), e.getY() );
-				Finger f = fingerContainer.getFingerByIndex( indexOfFingerUnderMouse );
-				client.processMultitouchInputEvent(
-					f.id,
-					f.position.x(),
-					f.position.y(),
-					TOUCH_EVENT_DOWN
-				);
-			}
-			isFingerDraggingModeActive = true;
-		}
-		else {
-			client.mousePressed(e);
-		}*/
 	}
 	public void mouseReleased( MouseEvent e ) {
-		mouse_x = e.getX();
-		mouse_y = e.getY();
-		if ( isFingerDraggingModeActive ) {
-			if ( SwingUtilities.isRightMouseButton(e) ) {
-				Finger f = fingerContainer.getFingerByIndex( indexOfFingerUnderMouse );
-				client.processMultitouchInputEvent(
-					f.id,
-					f.position.x(),
-					f.position.y(),
-					TOUCH_EVENT_UP
-				);
-				fingerContainer.deleteFingerByIndex( indexOfFingerUnderMouse );
-			}
-			isFingerDraggingModeActive = false;
-			indexOfFingerUnderMouse = -1;
-			updateHiliting( e.getX(), e.getY() );
-			requestRedraw();
-		}
-		else {
-			client.mouseReleased( e );
-		}
+		client.mouseReleased( e );
 	}
 	public void mouseMoved( MouseEvent e ) {
-		mouse_x = e.getX();
-		mouse_y = e.getY();
 		client.mouseMoved( e );
-		updateHiliting( e.getX(), e.getY() );
 	}
 	public void mouseDragged( MouseEvent e ) {
-		if ( isFingerDraggingModeActive ) {
-			Finger f = fingerContainer.getFingerByIndex( indexOfFingerUnderMouse );
-			f.position.get()[0] += e.getX() - mouse_x;
-			f.position.get()[1] += e.getY() - mouse_y;
-			client.processMultitouchInputEvent(
-				f.id,
-				f.position.x(),
-				f.position.y(),
-				TOUCH_EVENT_MOVE
-			);
-		}
-		else {
-			client.mouseDragged( e );
-		}
-		mouse_x = e.getX();
-		mouse_y = e.getY();
+		client.mouseDragged( e );
 	}
 
 	public void requestRedraw() {
-		repaint();
+		repaint();               
 	}
 
 	public void init( GLAutoDrawable drawable ) {
@@ -271,8 +145,42 @@ public class MultitouchFramework
 	public void display( GLAutoDrawable drawable ) {
 		gw.set( drawable );
 		client.draw();
-		fingerContainer.drawFingers( gw, indexOfFingerUnderMouse );
 		// gl.glFlush(); // I don't think this is necessary
+	}
+
+	public void run() {
+		// adaptive sleep interval
+		int [] sleepInterval = {0,0,0,1,1,1,2,2,2,3,3,3,5,5,5,10,10,10,20,25};
+		int indexIntoSleepInterval = 0;
+		try {
+			multitouchInterface.initialize( Constant.PROGRAM_NAME );
+
+			while (true) {
+				if ( multitouchInterface.pollForInputEvent() ) {
+					indexIntoSleepInterval = 0;
+					int offsetx = this.getLocation().x + this.getParent().getLocation().x;
+					int offsety = this.getLocation().y + this.getParent().getLocation().y;
+					client.processMultitouchInputEvent(
+						multitouchInterface.event.id,
+						multitouchInterface.event.x - offsetx,
+						multitouchInterface.event.y - offsety,
+						multitouchInterface.event.type
+					);
+				}
+				else {
+					// There was no input event waiting for us,
+					// so we can sleep a little bit longer than last time.
+					if ( indexIntoSleepInterval < sleepInterval.length-1 ) {
+						++ indexIntoSleepInterval;
+					}
+				}
+				//requestRedraw();
+				if ( sleepInterval[indexIntoSleepInterval] > 0 ) {
+					multitouchPollingThread.sleep( sleepInterval[indexIntoSleepInterval] );  // interval given in milliseconds
+				}
+			}
+		}
+		catch (InterruptedException e) { }
 	}
 
 	// For thread safety, this should be invoked
@@ -318,10 +226,11 @@ public class MultitouchFramework
 
 		frame.pack();
 		frame.setVisible( true );
-		
-		System.out.println("lenghWindow: " + frame.getSize().toString() );
-		
+
 		mf.start();
+
+		mf.multitouchPollingThread = new Thread( mf );
+		mf.multitouchPollingThread.start();
 	}
 
 	public static void main( String[] args ) {

@@ -47,8 +47,9 @@ public class Animation
 		int dururation = 0;
 		if( file.exists() )
 		{
-			try (BufferedReader br = new BufferedReader(new FileReader(file))) 
+			try 
 			{
+				BufferedReader br = new BufferedReader(new FileReader(file));
 			    while ((line = br.readLine()) != null)
 			    {
 			       segment = line.split(":");

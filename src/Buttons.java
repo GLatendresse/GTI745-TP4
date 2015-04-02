@@ -70,7 +70,8 @@ public class Buttons
 	{
 		switch (type)
 		{
-		case BUTTON_IMPORT:	
+
+		case BUTTON_IMPORT:
 			
 			FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
 			File file = null;
