@@ -1744,7 +1744,32 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 
 		mouse_x = e.getX();
 		mouse_y = e.getY();
-
+		
+		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
+		//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
+			
+			if( drumPart.getType() == DrumPart.BASS_DRUM)
+			{
+				drumPart.setCenterX(mouse_x);
+				drumPart.setCenterY(mouse_y + (1.f/2.f)*drumPart.getRadius());
+				//Thread.sleep(1000);
+				//DrumPart2.playSound();
+			}
+			
+			else if(drumPart.getType() == DrumPart.HIHAT_PEDAL){
+				
+				drumPart.setCenterX(mouse_x - (1.f/2.f)*drumPart.getRadius());
+				drumPart.setCenterY(mouse_y - (1.f/2.f)*drumPart.getRadius());
+				
+			}
+			
+			else if(drumPart != null){
+				
+				drumPart.setCenterX(mouse_x);
+				drumPart.setCenterY(mouse_y);
+				
+			}
+		
 		// multitouchFramework.requestRedraw();
 	}
 

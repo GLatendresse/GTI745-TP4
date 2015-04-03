@@ -61,7 +61,7 @@ public class DrumPart
 	public void setCymbalHihatOpening(boolean isOpen){ this.cymbalHihatIsOpen = isOpen; }
 	
 	public String getName(){ return this.name; }
-	public int setType(){ return this.type; }
+	public int getType(){ return this.type; }
 	public float getRadius(){ return this.radius; }
 	public float getCenterX(){ return this.centerX; }
 	public float getCenterY(){ return this.centerY; }
