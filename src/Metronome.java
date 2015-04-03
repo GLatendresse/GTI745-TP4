@@ -211,12 +211,20 @@ public class Metronome {
 		
 	}
 	
+	public void drawBeat(GraphicsWrapper gw){
+		
+		gw.setColor(Color.black);
+		gw.drawString(centerX + (1.f/30.f)*width, centerY + (3*height)/4.f, "Beat:" + beat + "ms");
+		
+	}
+	
 	public void draw(GraphicsWrapper gw){
 		
 		drawMetronome(gw);
 		drawMinus(gw);
 		drawPlus(gw);
 		drawName(gw);
+		drawBeat(gw);
 		
 	}
 	

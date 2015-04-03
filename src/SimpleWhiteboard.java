@@ -1643,7 +1643,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			if((mouse_x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && mouse_x >= metronome.getMinusCenterX()) 
 					&&  (mouse_y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && mouse_y >= metronome.getMinusCenterY())){
 				
-				if(metronome.isActivated() && metronome.getBeat() > 50){
+				if(metronome.getBeat() > 50){
 					
 					metronome.setBeat(metronome.getBeat() - 50);	
 				}			
@@ -1654,11 +1654,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			if((mouse_x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && mouse_x >= metronome.getPlusCenterX()) 
 					&&  (mouse_y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && mouse_y >= metronome.getPlusCenterY())){
 				
-				if(metronome.isActivated()){
+				
 					
-					metronome.setBeat(metronome.getBeat() + 50);
+				metronome.setBeat(metronome.getBeat() + 50);
 					
-				}				
+								
 				
 			}
 			
@@ -1693,7 +1693,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		if((mouse_x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && mouse_x >= metronome.getMinusCenterX()) 
 				&&  (mouse_y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && mouse_y >= metronome.getMinusCenterY())){
 			
-			if(metronome.isActivated() && metronome.getBeat() > 50){
+			if(metronome.getBeat() > 50){
 				
 				metronome.minusPressed();	
 			}			
@@ -1703,10 +1703,10 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		if((mouse_x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && mouse_x >= metronome.getPlusCenterX()) 
 				&&  (mouse_y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && mouse_y >= metronome.getPlusCenterY())){
 			
-			if(metronome.isActivated()){
+		
 				
-				metronome.plusPressed();	
-			}				
+			metronome.plusPressed();	
+							
 			
 		}
 		
@@ -1829,7 +1829,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				if((x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && x >= metronome.getMinusCenterX()) 
 						&&  (y <= metronome.getMinusCenterY()+metronome.getMinusHeight() && y >= metronome.getMinusCenterY())){
 					
-					if(metronome.isActivated() && metronome.getBeat() > 50){
+					if(metronome.getBeat() > 50){
 						
 						metronome.setBeat(metronome.getBeat() - 50);	
 					}			
@@ -1839,12 +1839,8 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				//Activer le plus du metronome
 				if((x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && x >= metronome.getPlusCenterX()) 
 						&&  (y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && y >= metronome.getPlusCenterY())){
-					
-					if(metronome.isActivated()){
 						
-						metronome.setBeat(metronome.getBeat() + 50);
-						
-					}				
+					metronome.setBeat(metronome.getBeat() + 50);				
 					
 				}
 				
