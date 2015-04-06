@@ -1583,7 +1583,12 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		gw.drawRect(drum.getDrumPostionX(), drum.getDrumPostionY(), drum.getDrumWidth(), drum.getDrumHeight());
 		
 		//TODO Draw Hihat line with the pedale
+		
+			
 		drum.drawLineHihat();
+			
+		
+		
 		
 		//TODO Draw Metronome	
 		metronome.drawChromaethesia(gw);
@@ -1698,11 +1703,16 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
 	//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
 		
-		if( drumPart != null)
+		if( drumPart != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
 		{
 			drumPart.playSound();
 			//Thread.sleep(1000);
 			//DrumPart2.playSound();
+		}
+		else if(drumPart != null && modeMenu.getCurrentMode() == ModeMenu.DELETEMODE){
+			
+			drum.getDrumParts().remove(drumPart);
+			
 		}
 		// multitouchFramework.requestRedraw();
 		
@@ -1761,9 +1771,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		mouse_x = e.getX();
 		mouse_y = e.getY();
 		
-		drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
-		//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
+		if(modeMenu.getCurrentMode() == ModeMenu.DRAGMODE){
 			
+			drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
+			//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
+				
 			if( drumPart.getType() == DrumPart.BASS_DRUM)
 			{
 				drumPart.setCenterX(mouse_x);
@@ -1785,7 +1797,9 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				drumPart.setCenterY(mouse_y);
 				
 			}
-		
+			
+		}
+	
 		// multitouchFramework.requestRedraw();
 	}
 

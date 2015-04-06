@@ -159,12 +159,15 @@ public class Drum
 	
 	//Permet de dessiner la ligne entre la 
 	public void drawLineHihat()
-	{
+	{	
+		
 		DrumPart hiHat = getDrumPart(HIHAT_CYMBAL -1);
 		DrumPart hiHatPedal = getDrumPart(HIHAT_PEDAL -1);
 		
 		gw.setColor(1,1,1);
-		gw.drawLine(hiHat.getCenterX(), hiHat.getCenterY() + hiHat.getRadius(), hiHatPedal.getCenterX()+ (float)(hiHatPedal.getRadius()), hiHatPedal.getCenterY());
+		
+		if(hiHat != null && hiHatPedal != null)
+			gw.drawLine(hiHat.getCenterX(), hiHat.getCenterY() + hiHat.getRadius(), hiHatPedal.getCenterX()+ (float)(hiHatPedal.getRadius()), hiHatPedal.getCenterY());
 		
 		/*
 		for(int i=0; i < getDrumParts().size()-1; i++  )
