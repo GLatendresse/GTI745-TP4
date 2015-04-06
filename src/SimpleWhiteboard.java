@@ -1288,6 +1288,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	private DrumPart drumPart;
 	private Metronome metronome;
 	private Menu menu;
+	private ModeMenu modeMenu;
 	private int ittAnimation = 0;
 	private int tempsRestant = 0;
 	public MultitouchFramework multitouchFramework = null;
@@ -1320,6 +1321,8 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		drum = new Drum(gw);
 		//Initialisation du menu
 		menu = new Menu(gw, drum);
+		//Initialisation du menu des modes
+		modeMenu = new ModeMenu(200, 700, 400, 50);
 		
 		multitouchFramework.setPreferredWindowSize(Constant.INITIAL_WINDOW_WIDTH,Constant.INITIAL_WINDOW_HEIGHT);
 
@@ -1572,6 +1575,9 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		menu.drawButtons();
 		menu.drawAnimationWidget();
 		
+		//TODO Draw ModeMenu
+		modeMenu.draw(gw);
+		
 		//TODO Draw encadrage de la zone du drum
 		gw.setColor(1,1,1);
 		gw.drawRect(drum.getDrumPostionX(), drum.getDrumPostionY(), drum.getDrumWidth(), drum.getDrumHeight());
@@ -1624,6 +1630,16 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		}
 		else
 		{	
+			//Clic dans le menu des modes
+			if((mouse_x <= modeMenu.getCenterX()+modeMenu.getWidth() && mouse_x >= modeMenu.getCenterX()) 
+					&&  (mouse_y <= modeMenu.getCenterY()+modeMenu.getHeight() && mouse_y >= modeMenu.getCenterY())){
+				
+				modeMenu.setCurrentModeWhenClicked(mouse_x);
+				System.out.println("Souris X: " + mouse_x);
+				System.out.println("Souris Y: " + mouse_y);
+				System.out.println("Mode: " + modeMenu.getCurrentMode());
+			}
+			
 			//Activer metronome
 			if((mouse_x <= metronome.getCenterX()+metronome.getWidth() && mouse_x >= metronome.getCenterX()) 
 					&&  (mouse_y <= metronome.getCenterY()+metronome.getHeight() && mouse_y >= metronome.getCenterY())){
