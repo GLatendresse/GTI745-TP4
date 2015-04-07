@@ -144,7 +144,7 @@ public class Buttons
 					else if( drum.getAnimation().isDemoPlay() )
 						drum.getAnimation().stopDemo();
 				}
-				menu.ActivateAllButton();
+				menu.activateAllButton();
 				break;
 			case BUTTON_RECORD:
 				System.out.println("Recording");
