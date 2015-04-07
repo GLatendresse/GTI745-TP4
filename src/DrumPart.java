@@ -68,9 +68,9 @@ public class DrumPart
 	public Color getBackgroundColor(){ return this.backgroundColor; }
 	public Color getActionColor(){ return this.actionColor;  }	
 	public boolean getPlayState(){ return this.playState; }
-	public boolean getCymbalHihatOpening(){ return this.cymbalHihatIsOpen; }
 	
-	public void playSound() throws InterruptedException
+	
+	public void playSound(boolean cymbalHihatIsOpen) throws InterruptedException
 	{
 		switch (type)
 		{
@@ -90,10 +90,12 @@ public class DrumPart
 			chroma.addSnare();
 			break;
 		case HIHAT_CYMBAL:
-				if(cymbalHihatIsOpen)
-					chroma.addHiHatCymbalOpen();
-				else
-					chroma.addHiHatCymbalClosed();
+			
+			if(cymbalHihatIsOpen){
+				
+				chroma.addHiHatCymbalOpen();
+			}else
+				chroma.addHiHatCymbalClosed();
 			break;
 		case CRASH_SYMBAL:
 			chroma.addCrashCymbal();
@@ -103,12 +105,14 @@ public class DrumPart
 			break;
 		case HIHAT_PEDAL:
 			
-			/*
-			if(cymbalHihatIsOpen)
+			
+			/*if(cymbalHihatIsOpen){
 				cymbalHihatIsOpen = false;
-			else
+				System.out.println("fermé");
+			}else{
 				cymbalHihatIsOpen = true;
-			*/
+				System.out.println("ouvert");
+			}*/
 			chroma.addHiHatPedal(radius);
 			break;
 		default:

@@ -14,6 +14,7 @@ public class Drum
 	private Animation animation;
 	private Recording recording;
 	public GraphicsWrapper gw = null;
+	private boolean cymbalHihatIsOpen = false; //Détermine si la symbale (Hi-hat) est monté par sa pédale ou pas 
 	
 	private float drumPositionX = 0.0f;
 	private float drumPositionY = 0.0f;
@@ -37,6 +38,7 @@ public class Drum
 	public void setDrumHeight(float height){ drumHeight = height; }
 	public void setAnimation(Animation anime){ animation = anime; }
 	public void setRecording(Recording record){ recording = record; }
+	public void setCymbalHihatOpening(boolean isOpen){ this.cymbalHihatIsOpen = isOpen; }
 	
 	public float getDrumPostionX(){ return drumPositionX; }
 	public float getDrumPostionY(){ return drumPositionY; }
@@ -44,7 +46,7 @@ public class Drum
 	public float getDrumHeight(){ return drumHeight; }
 	public Animation getAnimation(){ return animation; }
 	public Recording getRecording(){ return recording; }
-
+	public boolean getCymbalHihatOpening(){ return this.cymbalHihatIsOpen; }
 
 	
 	public DrumPart getDrumPart(int indexPart)
@@ -75,13 +77,13 @@ public class Drum
 				{
 					if( mouseY >= drumPart.getCenterY() && mouseY <= drumPart.getCenterY() + drumPart.getRadius()*2 )
 					{
-						if(drumPart.getCymbalHihatOpening())
+						if(cymbalHihatIsOpen)
 						{
-							drumPart.setCymbalHihatOpening(false);
+							cymbalHihatIsOpen = false;
 						}
 						else
 						{
-							drumPart.setCymbalHihatOpening(true);
+							cymbalHihatIsOpen = true;
 						}
 						return drumPart;
 					}

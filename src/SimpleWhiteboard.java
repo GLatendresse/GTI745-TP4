@@ -1458,7 +1458,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					
 					if( note != null )
 					{
-				        drum.getDrumPart( note.getIdInstrument() ).playSound();
+				        drum.getDrumPart( note.getIdInstrument() ).playSound(drum.getCymbalHihatOpening());
 				        ittAnimation++;
 				        if (ittAnimation < nbNotes )
 				        {
@@ -1686,6 +1686,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		metronome.drawChromaethesia(gw);
 		metronome.draw(gw);
 		
+		
 		/* draw separate line
 		if ( Constant.NUM_USERS == 2 ) {
 		      Point2D center0 = userContexts[0].palette.getCenter();
@@ -1802,7 +1803,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		
 		if( drumPart != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
 		{
-			drumPart.playSound();
+			drumPart.playSound(drum.getCymbalHihatOpening());
 			
 			if( drum.getRecording().isRecording() )
 			{
@@ -1946,7 +1947,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			if( drumPart != null)
 			{
 				try {
-					drumPart.playSound();
+					drumPart.playSound(drum.getCymbalHihatOpening());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
