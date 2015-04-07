@@ -1677,8 +1677,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					
 					metronome.activate();	
 				}			
-				else{
-					
+				else{				
 					metronome.desactivate();
 					
 				}
@@ -1746,14 +1745,11 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			if(metronome.getBeat() > 50){
 				
 				metronome.minusPressed();	
-			}			
-			
+			}						
 		}
 		
 		if((mouse_x <= metronome.getPlusCenterX()+metronome.getPlusWidth() && mouse_x >= metronome.getPlusCenterX()) 
 				&&  (mouse_y <= metronome.getPlusCenterY()+metronome.getPlusHeight() && mouse_y >= metronome.getPlusCenterY())){
-			
-		
 				
 			metronome.plusPressed();	
 							

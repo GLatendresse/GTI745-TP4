@@ -36,7 +36,6 @@ public class Buttons
 	private Color backgroundColor = Color.white;
 	private boolean isActivate = true;
 	
-	
 	public Buttons(int type, float centerX, float centerY, float radius, String buttonName, Color backgroundColor)
 	{
 		this.type = type;

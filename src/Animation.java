@@ -118,6 +118,8 @@ public class Animation
 	public void stopDemo() 
 	{
 		isDemoPlay = false;
+		durationTotal = 0;
+		currentTimeAnimation = 0;
 	}
 	
 	public void initializeNotes(String filePath)
@@ -193,11 +195,15 @@ public class Animation
 	
 	public void clearNotes()
 	{
+		durationTotal = 0;
+		currentTimeAnimation = 0;
 		notes.clear();
 	}
 	
 	public void clearDemo()
 	{
+		durationTotal = 0;
+		currentTimeAnimation = 0;
 		demonstration.clear();
 	}
 }
