@@ -170,13 +170,23 @@ public class Menu
 		return null;
 	}
 	
-	public void ActivateAllButton()
+	public void activateAllButton()
 	{
 		Buttons button;
 		for(int i=0; i < getButtons().size(); i++  )
 		{
 			button = getButton(i);
 			button.activate();			
+		}
+	}
+	
+	public void desactivateAllButton()
+	{
+		Buttons button;
+		for(int i=0; i < getButtons().size(); i++  )
+		{
+			button = getButton(i);
+			button.desactivate();			
 		}
 	}
 	

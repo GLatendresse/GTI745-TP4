@@ -1470,14 +1470,14 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				        	ittAnimation = 0;
 				        	animation.stopAnimation();
 				        	animation.setCurrentTime( 0 );
-				        	menu.ActivateAllButton();
+				        	menu.activateAllButton();
 				        }
 					}
 					else
 					{
 						animation.stopAnimation();
 						animation.setCurrentTime( 0 );
-						menu.ActivateAllButton();
+						menu.activateAllButton();
 					}
 				}
 			    else
@@ -1732,6 +1732,15 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					&&  (mouse_y <= modeMenu.getCenterY()+modeMenu.getHeight() && mouse_y >= modeMenu.getCenterY())){
 				
 				modeMenu.setCurrentModeWhenClicked(mouse_x);
+				
+				if( modeMenu.getCurrentMode() == ModeMenu.PLAYMODE )
+				{
+					menu.activateAllButton();
+				}
+				else
+				{
+					menu.desactivateAllButton();
+				}
 			}
 			
 			//Activer metronome
