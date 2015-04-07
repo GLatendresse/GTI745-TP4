@@ -15,6 +15,8 @@ public class Buttons
 	public static final int BUTTON_PLAY = 3; 
 	public static final int BUTTON_STOP = 4;
 	public static final int BUTTON_RECORD = 5; 
+	public static final int BUTTON_DEMO1 = 6;
+	public static final int BUTTON_DEMO2 = 7; 
 	
 	public static final int BASS_DRUM = 1; 
 	public static final int FLOOR_TOM_TOM = 2; 
@@ -32,6 +34,7 @@ public class Buttons
 	private float radius = 0.0f;
 	private String buttonName = "...";
 	private Color backgroundColor = Color.white;
+	private boolean isActivate = true;
 	
 	
 	public Buttons(int type, float centerX, float centerY, float radius, String buttonName, Color backgroundColor)
@@ -55,6 +58,10 @@ public class Buttons
 	public float getCenterX(){ return this.centerX; }
 	public float getCenterY(){ return this.centerY; }
 	
+	public boolean isActivate() { return isActivate; }
+	public void activate(){  isActivate = true; }
+	public void desactivate(){  isActivate = false; }
+	
 	public Color getBackgroundColor()
 	{ 
 		/*
@@ -66,61 +73,94 @@ public class Buttons
 		return this.backgroundColor; 
 	}
 	
-	public void doFunction(Drum drum)
+	public void doFunction(Drum drum, Menu menu)
 	{
-		switch (type)
+		if( isActivate() && drum != null && menu != null)
 		{
-
-		case BUTTON_IMPORT:
-			
-			FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
-			File file = null;
-			fd.setDirectory("C:\\");
-			fd.setFile("*");
-			fd.setVisible(true);
-			String filename = fd.getFile();
-			String filePath = fd.getDirectory();
-			if (filename == null)
+			switch (type)
 			{
-			  System.out.println("You cancelled the choice");
-			}
-			else
-			{
-				System.out.println("You chose " + filePath); 
-				filePath += filename;
-				file = new File(filePath);
-				if( file.exists() )
+	
+			case BUTTON_IMPORT:
+				
+				FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
+				File file = null;
+				fd.setDirectory("C:\\");
+				fd.setFile("*");
+				fd.setVisible(true);
+				String filename = fd.getFile();
+				String filePath = fd.getDirectory();
+				if (filename == null)
 				{
-					drum.setFileName(filename);
-					drum.getAnimation().initializeNotes(filePath);
+				  System.out.println("You cancelled the choice");
 				}
-			  // readFile( drum, filePath +  filename );
-			  // playDemo(drum);
+				else
+				{
+					System.out.println("You chose " + filePath); 
+					filePath += filename;
+					file = new File(filePath);
+					if( file.exists() )
+					{
+						drum.setFileName(filename);
+						drum.getAnimation().initializeNotes(filePath);
+					}
+				    // readFile( drum, filePath +  filename );
+				    // playDemo(drum);
+				}
+	
+				//Sound.SoundTest();
+				break;
+			case BUTTON_EXPORT:
+				
+				break;
+			case BUTTON_PLAY:
+				if( drum.getAnimation().isAnimationInPause() )
+					if( drum.getAnimation().isAnimationPlay() )
+						drum.getAnimation().playAnimation();
+					else if( drum.getAnimation().isDemoPlay() )
+						drum.getAnimation().playDemo();
+				else
+					drum.getAnimation().pauseAnimation();
+				break;
+			case BUTTON_STOP:
+				if( drum.getAnimation().isAnimationPlay() )
+					drum.getAnimation().stopAnimation();
+				else if( drum.getAnimation().isDemoPlay() )
+					drum.getAnimation().stopDemo();
+				menu.ActivateAllButton();
+				break;
+			case BUTTON_RECORD:
+				
+				break;
+			case BUTTON_DEMO1:
+				drum.setFileName("demo.gti745");
+				drum.getAnimation().initializeDemo("demos\\demo.gti745");
+				drum.getAnimation().playDemo();
+				
+				menu.getButton(BUTTON_EXPORT -1).desactivate();
+				menu.getButton(BUTTON_IMPORT -1).desactivate();
+				menu.getButton(BUTTON_RECORD -1).desactivate();
+				menu.getButton(BUTTON_DEMO2 -1).desactivate();
+				
+				break;
+			case BUTTON_DEMO2:
+				drum.setFileName("demo2.gti745");
+				drum.getAnimation().initializeDemo("demos\\demo2.gti745");
+				drum.getAnimation().playDemo();
+				
+				menu.getButton(BUTTON_EXPORT -1).desactivate();
+				menu.getButton(BUTTON_IMPORT -1).desactivate();
+				menu.getButton(BUTTON_RECORD -1).desactivate();
+				menu.getButton(BUTTON_DEMO1 -1).desactivate();
+				
+				break;
+			default:
+				
+				break;
 			}
-
-			//Sound.SoundTest();
-			break;
-		case BUTTON_EXPORT:
-			
-			break;
-		case BUTTON_PLAY:
-			if( drum.getAnimation().isAnimationInPause() )
-				drum.getAnimation().playAnimation();
-			else
-				drum.getAnimation().pauseAnimation();
-			break;
-		case BUTTON_STOP:
-			drum.getAnimation().stopAnimation();
-			break;
-		case BUTTON_RECORD:
-			
-			break;
-		default:
-			
-			break;
 		}
 	}
 	
+	/*
 	public void playDemo(Drum drum)
 	{
 		int duration = 200; // en millisecondes
@@ -174,5 +214,5 @@ public class Buttons
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

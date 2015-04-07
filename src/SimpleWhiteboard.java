@@ -1365,18 +1365,40 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	{
 		Animation animation = drum.getAnimation();
 		Note note = null;
-		if( animation != null && animation.isAnimationPlay() && ! animation.isAnimationInPause() )
+		int nbNotes = 0;
+		if( animation != null && (animation.isAnimationPlay() || animation.isDemoPlay() ) && ! animation.isAnimationInPause() )
 		{
 			try 
 			{
+				//Si c'est un fichier exporté
+				if( animation.isAnimationPlay() )
+				{
+					nbNotes = animation.getNotes().size();
+				}
+				//Si on fait jouer une démo
+				else
+				{
+					nbNotes = animation.getDemo().size();
+				}
+				
 				if (tempsRestant == 0)
 				{
-					note = animation.getNote(ittAnimation);
+					//Si c'est un fichier exporté
+					if( animation.isAnimationPlay() )
+					{
+						note = animation.getNote(ittAnimation);
+					}
+					//Si on fait jouer une démo
+					else
+					{
+						note = animation.getDemoNote(ittAnimation);
+					}
+					
 					if( note != null )
 					{
 				        drum.getDrumPart( note.getIdInstrument() ).playSound();
 				        ittAnimation++;
-				        if (ittAnimation < animation.getNotes().size())
+				        if (ittAnimation < nbNotes )
 				        {
 				            tempsRestant = note.getDuration();
 				            animation.setCurrentTime( tempsRestant +  animation.getCurrentTime());
@@ -1386,12 +1408,14 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				        	ittAnimation = 0;
 				        	animation.stopAnimation();
 				        	animation.setCurrentTime( 0 );
+				        	menu.ActivateAllButton();
 				        }
 					}
 					else
 					{
 						animation.stopAnimation();
 						animation.setCurrentTime( 0 );
+						menu.ActivateAllButton();
 					}
 				}
 			    else
@@ -1631,7 +1655,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		button = menu.getButtonMouseClicked(mouse_x, mouse_y);
 		if( button != null )
 		{
-			button.doFunction(drum);
+			button.doFunction(drum, menu);
 		}
 		else
 		{	
@@ -1861,7 +1885,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			button = menu.getButtonMouseClicked((int)x, (int)y);
 			if( button != null )
 			{
-				button.doFunction(drum);
+				button.doFunction(drum, menu);
 			}
 			else
 			{	

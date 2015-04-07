@@ -28,48 +28,27 @@ class Note
 public class Animation 
 {
 	private List<Note> notes = new ArrayList<Note>();
+	private List<Note> demonstration = new ArrayList<Note>();
 	private boolean isAnimationPlay = false;
+	private boolean isDemoPlay = false;
 	private boolean isInPause = true;
 	private int durationTotal = 0;
 	private int currentTimeAnimation = 0;
+	private String demoFileName = "";
 	
 	public Animation()
 	{
 		
 	}
 	
-	public void initializeNotes(String filePath)
-	{
-		File file = new File(filePath);
-		String[] segment;
-	    String line;
-		int type = 0;
-		int dururation = 0;
-		if( file.exists() )
-		{
-			try 
-			{
-				BufferedReader br = new BufferedReader(new FileReader(file));
-			    while ((line = br.readLine()) != null)
-			    {
-			       segment = line.split(":");
-			       type = Integer.parseInt( segment[0] );
-			       dururation = Integer.parseInt( segment[1] );
-			       durationTotal += dururation;
-			       notes.add(new Note( type, dururation ) );
-			       // process the line.
-			    }
-			} 
-			catch (IOException ioe) 
-			{
-				ioe.printStackTrace();
-			} 
-		}
-		else
-		{
-			System.out.println("fichier inexistant");
-		}
-	}
+	public void setTotalDuration( int duree ){ durationTotal = duree; }
+	public int getTotalDuration(){ return this.durationTotal; }
+	
+	public void setCurrentTime( int time ){ currentTimeAnimation = time; }
+	public int getCurrentTime(){ return this.currentTimeAnimation; }
+	
+	public void  setDemoFileName ( String demoFile ){ demoFileName = demoFile; }
+	public String getDemoFileName ( ){ return demoFileName; }
 	
 	public List<Note> getNotes()
 	{
@@ -88,13 +67,25 @@ public class Animation
 		}
 	}
 	
-	public void setTotalDuration( int duree ){ durationTotal = duree; }
-	public int getTotalDuration(){ return this.durationTotal; }
+	public List<Note> getDemo()
+	{
+		return demonstration;
+	}
 	
-	public void setCurrentTime( int time ){ currentTimeAnimation = time; }
-	public int getCurrentTime(){ return this.currentTimeAnimation; }
+	public Note getDemoNote(int index)
+	{
+		if( index >= 0 && index < demonstration.size())
+		{
+			return demonstration.get(index);
+		}
+		else
+		{
+			return null;
+		}
+	}
 	
 	public boolean isAnimationPlay() { return isAnimationPlay; }
+	public boolean isDemoPlay() { return isDemoPlay; }
 	public boolean isAnimationInPause() { return isInPause; }
 	
 	public void playAnimation() 
@@ -110,6 +101,103 @@ public class Animation
 	
 	public void stopAnimation() 
 	{
-		isAnimationPlay = false;
+		isDemoPlay = false;
+	}
+	
+	public void playDemo() 
+	{
+		isDemoPlay = true;
+		isInPause = false;
+	}
+	
+	public void pauseDemo()
+	{
+		isInPause = true;
+	}
+	
+	public void stopDemo() 
+	{
+		isDemoPlay = false;
+	}
+	
+	public void initializeNotes(String filePath)
+	{
+		File file = new File(filePath);
+		String[] segment;
+	    String line;
+		int type = 0;
+		int dururation = 0;
+		if( file.exists() )
+		{
+			clearNotes();
+			try 
+			{
+				BufferedReader br = new BufferedReader(new FileReader(file));
+			    while ((line = br.readLine()) != null)
+			    {
+			       segment = line.split(":");
+			       type = Integer.parseInt( segment[0] );
+			       dururation = Integer.parseInt( segment[1] );
+			       durationTotal += dururation;
+			       notes.add(new Note( type, dururation ) );
+			       // process the line.
+			    }
+			    br.close();
+			} 
+			catch (IOException ioe) 
+			{
+				ioe.printStackTrace();
+			} 
+		}
+		else
+		{
+			System.out.println("fichier inexistant");
+		}
+	}
+	
+	public void initializeDemo(String filePath)
+	{
+		File file = new File(filePath);
+		String[] segment;
+	    String line;
+		int type = 0;
+		int dururation = 0;
+		if(! filePath.equals(demoFileName) &&  file.exists() )
+		{
+			demoFileName = filePath;
+			clearDemo();
+			try 
+			{
+				BufferedReader br = new BufferedReader(new FileReader(file));
+			    while ((line = br.readLine()) != null)
+			    {
+			       segment = line.split(":");
+			       type = Integer.parseInt( segment[0] );
+			       dururation = Integer.parseInt( segment[1] );
+			       durationTotal += dururation;
+			       demonstration.add(new Note( type, dururation ) );
+			       // process the line.
+			    }
+			    br.close();
+			} 
+			catch (IOException ioe) 
+			{
+				ioe.printStackTrace();
+			} 
+		}
+		else
+		{
+			System.err.println("fichier inexistant où déja ouvert");
+		}
+	}
+	
+	public void clearNotes()
+	{
+		notes.clear();
+	}
+	
+	public void clearDemo()
+	{
+		demonstration.clear();
 	}
 }
