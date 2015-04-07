@@ -1321,7 +1321,9 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		//Initialisation du menu
 		menu = new Menu(gw, drum);
 		//Initialisation du menu des modes
-		modeMenu = new ModeMenu(200, 700, 400, 50);
+		//modeMenu = new ModeMenu(200, 700, 400, 50);
+		modeMenu = new ModeMenu((int)(gw.getWidth()*20),(int)(gw.getHeight()*20), 400, 50);
+		
 		
 		multitouchFramework.setPreferredWindowSize(Constant.INITIAL_WINDOW_WIDTH,Constant.INITIAL_WINDOW_HEIGHT);
 
@@ -1499,6 +1501,12 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 	public Menu getMenu()
 	{
 		return menu;
+	}
+	
+	public ModeMenu getModeMenu(){
+		
+		return modeMenu;
+		
 	}
 	
 	/*
@@ -1713,7 +1721,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		
 		Buttons button;
 		button = menu.getButtonMouseClicked(mouse_x, mouse_y);
-		if( button != null )
+		if( button != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
 		{
 			button.doFunction(drum, menu);
 		}
@@ -1798,11 +1806,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			//Thread.sleep(1000);
 			//DrumPart2.playSound();
 		}
-		else if(drumPart != null && modeMenu.getCurrentMode() == ModeMenu.DELETEMODE){
-			
-			drum.getDrumParts().remove(drumPart);
-			
-		}
+		
 		// multitouchFramework.requestRedraw();
 		
 		if((mouse_x <= metronome.getMinusCenterX()+metronome.getMinusWidth() && mouse_x >= metronome.getMinusCenterX()) 

@@ -28,51 +28,58 @@ public class ModeMenu {
 		
 	}
 	
+	public void reshape(GraphicsWrapper gw){
+		
+		centerX = (int) (gw.getWidth() * 0.5 - width/2.f);
+		centerY = (int)(gw.getHeight() * 0.80);
+		
+	}
+	
 	public void drawPlayMode(GraphicsWrapper gw){
 		
 		gw.setColor(Color.white);
-		gw.drawRect(centerX, centerY, width/4.f, height, false);
+		gw.drawRect(centerX, centerY, width/2.f, height, false);
 		
 		if(currentMode == PLAYMODE)
 			gw.setColor(Color.green);
 		else
 			gw.setColor(Color.red);
 			
-		gw.drawRect(centerX, centerY, width/4.f, height, true);
+		gw.drawRect(centerX, centerY, width/2.f, height, true);
 		gw.setColor(Color.black);
-		gw.drawString(centerX + (1.f/8.f)*(width/4.f), centerY + height/2.f, "Play");
+		gw.drawString(centerX + (1.f/8.f)*(width/2.f), centerY + height/2.f, "Play Mode");
 		
 	}
 	
 	public void drawDragMode(GraphicsWrapper gw){
 		
 		gw.setColor(Color.white);
-		gw.drawRect(centerX + width/4.f, centerY, width/4.f, height, false);
+		gw.drawRect(centerX + width/2.f, centerY, width/2.f, height, false);
 		
 		if(currentMode == DRAGMODE)
 			gw.setColor(Color.green);
 		else
 			gw.setColor(Color.red);
 			
-		gw.drawRect(centerX + width/4.f, centerY, width/4.f, height, true);
+		gw.drawRect(centerX + width/2.f, centerY, width/2.f, height, true);
 		gw.setColor(Color.black);
-		gw.drawString(centerX + width/4.f + (1.f/8.f)*(width/4.f), centerY + height/2.f, "Drag");
+		gw.drawString(centerX + width/2.f + (1.f/8.f)*(width/2.f), centerY + height/2.f, "Drag Mode");
 		
 	}
 	
 	public void drawAddMode(GraphicsWrapper gw){
 		
 		gw.setColor(Color.white);
-		gw.drawRect(centerX + 2*(width/4.f), centerY, width/4.f, height, false);
+		gw.drawRect(centerX + 2*(width/2.f), centerY, width/2.f, height, false);
 		
 		if(currentMode == ADDMODE)
 			gw.setColor(Color.green);
 		else
 			gw.setColor(Color.red);
 			
-		gw.drawRect(centerX + 2*(width/4.f), centerY, width/4.f, height, true);
+		gw.drawRect(centerX + 2*(width/2.f), centerY, width/2.f, height, true);
 		gw.setColor(Color.black);
-		gw.drawString(centerX + 2*(width/4.f) + (1.f/8.f)*(width/4.f), centerY + height/2.f, "Add");
+		gw.drawString(centerX + 2*(width/2.f) + (1.f/8.f)*(width/2.f), centerY + height/2.f, "Add");
 		
 	}
 	
@@ -80,16 +87,16 @@ public class ModeMenu {
 	public void drawDeleteMode(GraphicsWrapper gw){
 		
 		gw.setColor(Color.white);
-		gw.drawRect(centerX + 3*(width/4.f), centerY, width/4.f, height, false);
+		gw.drawRect(centerX + 3*(width/2.f), centerY, width/2.f, height, false);
 		
 		if(currentMode == DELETEMODE)
 			gw.setColor(Color.green);
 		else
 			gw.setColor(Color.red);
 			
-		gw.drawRect(centerX + 3*(width/4.f), centerY, width/4.f, height, true);
+		gw.drawRect(centerX + 3*(width/2.f), centerY, width/2.f, height, true);
 		gw.setColor(Color.black);
-		gw.drawString(centerX + 3*(width/4.f) + (1.f/8.f)*(width/4.f), centerY + height/2.f, "Delete");
+		gw.drawString(centerX + 3*(width/2.f) + (1.f/8.f)*(width/2.f), centerY + height/2.f, "Delete");
 		
 	}
 	
@@ -97,20 +104,16 @@ public class ModeMenu {
 		
 		drawPlayMode(gw);
 		drawDragMode(gw);
-		drawAddMode(gw);
-		drawDeleteMode(gw);
+		//drawAddMode(gw);
+		//drawDeleteMode(gw);
 	}
 	
 	public void setCurrentModeWhenClicked(int mouseX){
 		
-		if(mouseX < (centerX+width/4.f))
+		if(mouseX < (centerX+width/2.f))
 			currentMode = PLAYMODE;
-		else if(mouseX < (centerX + 2*width/4.f))
-			currentMode = DRAGMODE;
-		else if(mouseX < (centerX + 3*width/4.f))
-			currentMode = ADDMODE;
 		else
-			currentMode = DELETEMODE;
+			currentMode = DRAGMODE;
 		
 	}
 

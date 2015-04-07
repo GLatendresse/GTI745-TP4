@@ -126,9 +126,11 @@ public class MultitouchFramework
 		gw.set( drawable );
 		gw.resize( width, height );
 		System.out.println("reshape");
+		client.getModeMenu().reshape(gw);
 		client.getDrum().gw = gw;
 		client.getDrum().initializeDrumPosition();
 		client.getMenu().changePositionButtons();
+		
 		
 		for( int i=0; i <  client.getDrum().getDrumParts().size(); i++ )
 		{
