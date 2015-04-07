@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Buttons 
 {
 	public static final int BUTTON_IMPORT = 1; 
-	public static final int BUTTON_EXPORT = 2;
+	public static final int BUTTON_SAVE = 2;
 	public static final int BUTTON_PLAY = 3; 
 	public static final int BUTTON_STOP = 4;
 	public static final int BUTTON_RECORD = 5; 
@@ -99,7 +99,7 @@ public class Buttons
 					file = new File(filePath);
 					if( file.exists() )
 					{
-						drum.setFileName(filename);
+						drum.getAnimation().setFileName(filename);
 						drum.getAnimation().initializeNotes(filePath);
 					}
 				    // readFile( drum, filePath +  filename );
@@ -108,7 +108,17 @@ public class Buttons
 	
 				//Sound.SoundTest();
 				break;
-			case BUTTON_EXPORT:
+			case BUTTON_SAVE:
+				System.out.println("save file");
+				Recording recording = drum.getRecording();
+				Animation animation = drum.getAnimation();
+				
+				animation.saveFile();
+				for( int i = 0; i< recording.getNotes().size(); i++ )
+				{
+					animation.getNotes().add( recording.getNote(i) );
+				}
+				
 				
 				break;
 			case BUTTON_PLAY:
@@ -121,32 +131,48 @@ public class Buttons
 					drum.getAnimation().pauseAnimation();
 				break;
 			case BUTTON_STOP:
-				if( drum.getAnimation().isAnimationPlay() )
-					drum.getAnimation().stopAnimation();
-				else if( drum.getAnimation().isDemoPlay() )
-					drum.getAnimation().stopDemo();
+				//Si on est en mode enregistrer
+				if( drum.getRecording().isRecording() )
+				{
+					drum.getRecording().stopRecording();
+				}
+				//Si on est en mode jouer enregistrement
+				else
+				{
+					if( drum.getAnimation().isAnimationPlay() )
+						drum.getAnimation().stopAnimation();
+					else if( drum.getAnimation().isDemoPlay() )
+						drum.getAnimation().stopDemo();
+				}
 				menu.ActivateAllButton();
 				break;
 			case BUTTON_RECORD:
+				System.out.println("Recording");
+				drum.getRecording().startRecording();
 				
+				menu.getButton(BUTTON_SAVE -1).desactivate();
+				menu.getButton(BUTTON_IMPORT -1).desactivate();
+				menu.getButton(BUTTON_RECORD -1).desactivate();
+				menu.getButton(BUTTON_DEMO1 -1).desactivate();
+				menu.getButton(BUTTON_DEMO2 -1).desactivate();
 				break;
 			case BUTTON_DEMO1:
-				drum.setFileName("demo.gti745");
+				drum.getAnimation().setFileName("demo.gti745");
 				drum.getAnimation().initializeDemo("demos\\demo.gti745");
 				drum.getAnimation().playDemo();
 				
-				menu.getButton(BUTTON_EXPORT -1).desactivate();
+				menu.getButton(BUTTON_SAVE -1).desactivate();
 				menu.getButton(BUTTON_IMPORT -1).desactivate();
 				menu.getButton(BUTTON_RECORD -1).desactivate();
 				menu.getButton(BUTTON_DEMO2 -1).desactivate();
 				
 				break;
 			case BUTTON_DEMO2:
-				drum.setFileName("demo2.gti745");
+				drum.getAnimation().setFileName("demo2.gti745");
 				drum.getAnimation().initializeDemo("demos\\demo2.gti745");
 				drum.getAnimation().playDemo();
 				
-				menu.getButton(BUTTON_EXPORT -1).desactivate();
+				menu.getButton(BUTTON_SAVE -1).desactivate();
 				menu.getButton(BUTTON_IMPORT -1).desactivate();
 				menu.getButton(BUTTON_RECORD -1).desactivate();
 				menu.getButton(BUTTON_DEMO1 -1).desactivate();

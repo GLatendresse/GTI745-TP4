@@ -30,7 +30,6 @@ class Stroke {
 	
 	//TODO merge this
 	private int thickness;
-	
 
 	private AlignedRectangle2D boundingRectangle = new AlignedRectangle2D();
 	private boolean isBoundingRectangleDirty = false;
@@ -1354,12 +1353,73 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		{
 			public void actionPerformed(ActionEvent evt) 
 			{ 
-				playAnimation();
+				/*
+				if( drum.getRecording().isRecording() )
+				{
+				
+				}
+				else if( drum.getAnimation().isAnimationPlay() || drum.getAnimation().isDemoPlay() )
+				{*/
+					playAnimation();
+				//}
 				multitouchFramework.requestRedraw();
 			}
 		};
 		 new Timer(1000/60, counter).start();
 	}
+	
+	/*
+	public void recording()
+	{
+		Recording recording = drum.getRecording();
+		Note note = null;
+		int nbNotes = 0;
+		if( recording != null && ! recording.isInPause() )
+		{
+			try 
+			{
+				nbNotes = recording.getNotes().size();
+				
+				if (tempsRestant == 0)
+				{
+					note = recording.getNote(ittAnimation);
+
+					if( note != null )
+					{
+				        drum.getDrumPart( note.getIdInstrument() ).playSound();
+				        ittAnimation++;
+				        if (ittAnimation < nbNotes )
+				        {
+				            tempsRestant = note.getDuration();
+				            recording.setCurrentTime( tempsRestant +  recording.getCurrentTime());
+				        }
+				        else
+				        {
+				        	ittAnimation = 0;
+				        	recording.stopRecording();
+				        	recording.setCurrentTime( 0 );
+				        	menu.ActivateAllButton();
+				        }
+					}
+					else
+					{
+						recording.stopRecording();
+						recording.setCurrentTime( 0 );
+						menu.ActivateAllButton();
+					}
+				}
+			    else
+			    {
+			        tempsRestant -= 50;
+			    }
+			} 
+			catch (InterruptedException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	} */
 	
 	public void playAnimation()
 	{
@@ -1664,9 +1724,6 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					&&  (mouse_y <= modeMenu.getCenterY()+modeMenu.getHeight() && mouse_y >= modeMenu.getCenterY())){
 				
 				modeMenu.setCurrentModeWhenClicked(mouse_x);
-				System.out.println("Souris X: " + mouse_x);
-				System.out.println("Souris Y: " + mouse_y);
-				System.out.println("Mode: " + modeMenu.getCurrentMode());
 			}
 			
 			//Activer metronome
@@ -1729,6 +1786,15 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		if( drumPart != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
 		{
 			drumPart.playSound();
+			
+			if( drum.getRecording().isRecording() )
+			{
+				if( drum.getRecording().getNotes().isEmpty() )
+				{
+					drum.getAnimation().setFileChanged();
+				}
+				drum.getRecording().getNotes().add(new Note(drumPart.getType(), 200));
+			}
 			//Thread.sleep(1000);
 			//DrumPart2.playSound();
 		}

@@ -34,7 +34,9 @@ public class Animation
 	private boolean isInPause = true;
 	private int durationTotal = 0;
 	private int currentTimeAnimation = 0;
+	private String fileName = "New File";
 	private String demoFileName = "";
+	private boolean isFileUpToDate = true;
 	
 	public Animation()
 	{
@@ -49,6 +51,10 @@ public class Animation
 	
 	public void  setDemoFileName ( String demoFile ){ demoFileName = demoFile; }
 	public String getDemoFileName ( ){ return demoFileName; }
+	
+	public void setFileName(String filename){ this.fileName = filename; } 
+	public String getFileName(){ return this.fileName; } 
+	
 	
 	public List<Note> getNotes()
 	{
@@ -87,6 +93,10 @@ public class Animation
 	public boolean isAnimationPlay() { return isAnimationPlay; }
 	public boolean isDemoPlay() { return isDemoPlay; }
 	public boolean isAnimationInPause() { return isInPause; }
+	
+	public void saveFile() { isFileUpToDate = true; } 
+	public void setFileChanged() { isFileUpToDate = false; } 
+	public boolean isFileUpToDate() { return isFileUpToDate; };
 	
 	public void playAnimation() 
 	{

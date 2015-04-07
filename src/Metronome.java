@@ -159,7 +159,7 @@ public class Metronome {
 		}
 		else{
 			
-			color = backgroundColor;
+			color = Color.red;//backgroundColor;
 			
 		}
 		
@@ -186,7 +186,7 @@ public class Metronome {
 		}
 		else{
 			
-			color = backgroundColor;
+			color = Color.green; //backgroundColor;
 			
 		}
 		

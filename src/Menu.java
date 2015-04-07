@@ -22,10 +22,10 @@ public class Menu
 	
 	public void initializeMenu()
 	{
-		Buttons btn1 = new Buttons(1, 40.0f, 30.0f, 30.0f, "Import", Color.lightGray );
+		Buttons btn1 = new Buttons(1, 40.0f, 30.0f, 30.0f, "Import", Color.magenta );
 		listButtons.add(btn1);
 		
-		Buttons btn2 = new Buttons(2, 40.0f, 30.0f, 30.0f, "Export", Color.lightGray );
+		Buttons btn2 = new Buttons(2, 40.0f, 30.0f, 30.0f, "Save", Color.pink );
 		listButtons.add(btn2);
 		
 		Buttons btn3 = new Buttons(3, 40.0f, 30.0f, 30.0f, "Play", Color.green );
@@ -119,7 +119,7 @@ public class Menu
 		
 		//dessine ligne de l'animation
 		gw.setColor( Color.RED );
-		if( drum.getAnimation().getTotalDuration() != 0 )
+		if(  drum.getAnimation().getTotalDuration() != 0 )
 		{
 			posAnimeLine = (float)((float)(drum.getAnimation().getCurrentTime()) / (float)(drum.getAnimation().getTotalDuration()));
 		}
@@ -127,12 +127,19 @@ public class Menu
 		//gw.fillRect((float)((gw.getWidth() * 0.52)), (float)(gw.getHeight() * 0.05), (float)(400 * posAnimeLine), (float)(gw.getHeight() * 0.05 + 80));
 		//dessine fileName 
 		gw.setColor( Color.BLACK );
-		gw.drawString((float)(posMenuX), (float)(gw.getHeight() * 0.02), drum.getFileName() );
+		gw.drawString((float)(posMenuX), (float)(gw.getHeight() * 0.02), drum.getAnimation().getFileName() );
 		gw.drawString((float)(posMenuX), (float)(gw.getHeight() * 0.05 + 100), "0" );
 		gw.drawString((float)(posMenuX + 90), (float)(gw.getHeight() * 0.05 + 100), String.valueOf(  (drum.getAnimation().getTotalDuration() * 0.25)/1000 ) );
 		gw.drawString((float)(posMenuX + 180), (float)(gw.getHeight() * 0.05 + 100), String.valueOf( (drum.getAnimation().getTotalDuration() * 0.5)/1000  )  );
 		gw.drawString((float)(posMenuX + 270), (float)(gw.getHeight() * 0.05 + 100), String.valueOf( (drum.getAnimation().getTotalDuration() * 0.75)/1000  )  );
 		gw.drawString((float)(posMenuX + 370), (float)(gw.getHeight() * 0.05 + 100), String.valueOf( (drum.getAnimation().getTotalDuration())/1000  ) + " sec" );
+		
+		if( drum.getRecording() != null && drum.getRecording().isRecording() )
+		{
+			System.out.println("Recording print");
+			gw.setColor( Color.RED );
+			gw.drawString((float)(posMenuX) + 200, (float)(gw.getHeight() * 0.02), "Recording"  );
+		}
 	}
 	
 	public List<Buttons> getButtons()
