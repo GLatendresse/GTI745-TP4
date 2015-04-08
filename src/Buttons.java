@@ -90,8 +90,20 @@ public class Buttons
 				break;
 			case BUTTON_PLAY:
 				System.out.println("Bouton play press !!");
+				for( int i =0; i < drum.getAnimation().getNotes().size(); i++ )
+				{
+					System.out.println(drum.getAnimation().getNote(i).toString());
+				}
+				
 				if( drum.getAnimation().isAnimationInPause() )
 				{
+					menu.getButton(BUTTON_NEW -1).desactivate();
+					menu.getButton(BUTTON_SAVE -1).desactivate();
+					menu.getButton(BUTTON_IMPORT -1).desactivate();
+					menu.getButton(BUTTON_RECORD -1).desactivate();
+					menu.getButton(BUTTON_DEMO1 -1).desactivate();
+					menu.getButton(BUTTON_DEMO2 -1).desactivate();
+					
 					if( drum.getAnimation().isDemoPlay() )
 					{
 						drum.getAnimation().playDemo();
@@ -104,6 +116,7 @@ public class Buttons
 				}
 				else
 				{
+					menu.activateAllButton();
 					drum.getAnimation().pauseAnimation();
 				}
 				break;
@@ -132,6 +145,7 @@ public class Buttons
 				menu.getButton(BUTTON_RECORD -1).desactivate();
 				menu.getButton(BUTTON_DEMO1 -1).desactivate();
 				menu.getButton(BUTTON_DEMO2 -1).desactivate();
+				menu.getButton(BUTTON_NEW -1).desactivate();
 				break;
 			case BUTTON_DEMO1:
 				drum.getAnimation().setFileName("demo.gti745");

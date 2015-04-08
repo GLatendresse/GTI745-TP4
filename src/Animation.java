@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 class Note 
 {
-	private int idInstrument = 0;
+	private int idInstrument = 0; 
 	private  int duration = 0;
 	
 	public Note(int id, int duration)
@@ -27,6 +27,11 @@ class Note
 	
 	public int getIdInstrument() { return idInstrument; }
 	public int getDuration() { return duration; }
+	
+	public String toString()
+	{
+		return idInstrument + " : " + duration;
+	}
 	
 }
 

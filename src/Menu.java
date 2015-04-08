@@ -88,7 +88,7 @@ public class Menu
 			if( i == BUTTON_PLAY-1 && ! drum.getAnimation().isAnimationInPause() && ! drum.getAnimation().isAnimationInPause()    )
 			{
 				if( button.isActivate() )
-					gw.setColor(Color.orange);
+					gw.setColor(Color.YELLOW);
 				else
 					gw.setColor(Color.GRAY);
 				gw.drawCenteredCircle(button.getCenterX(), button.getCenterY(), button.getRadius(), true);
