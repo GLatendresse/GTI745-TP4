@@ -1,9 +1,14 @@
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 
 class Note 
@@ -111,7 +116,9 @@ public class Animation
 	
 	public void stopAnimation() 
 	{
+		isAnimationPlay = false;
 		isDemoPlay = false;
+		isInPause = true;
 	}
 	
 	public void playDemo() 
@@ -127,9 +134,78 @@ public class Animation
 	
 	public void stopDemo() 
 	{
+		isInPause = true;
 		isDemoPlay = false;
 		durationTotal = 0;
 		currentTimeAnimation = 0;
+	}
+	
+	public void importFile()
+	{
+		FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
+		File file = null;
+		fd.setDirectory("C:\\");
+		fd.setFile(".gti745");
+		fd.setVisible(true);
+		String filename = fd.getFile();
+		String filePath = fd.getDirectory();
+		if (filename == null)
+		{
+		  System.out.println("You cancelled the choice");
+		}
+		else
+		{
+			filePath += filename;
+			initializeNotes(filePath);
+		}
+	}
+	
+	public void createNewFile()
+	{
+		int confirmNewFile = JOptionPane.showConfirmDialog (null, "Etes vous sûr de vouloir crée un nouveau fichier ? Tout changement non sauvegarder sera perdu.", "Warning", JOptionPane.YES_NO_OPTION);
+		if(confirmNewFile == JOptionPane.YES_OPTION)
+		{
+			fileName = "New File";
+			clearNotes();
+			isFileUpToDate = true;
+		}
+	}
+	
+	public void SaveRecordToFile(Recording recording)
+	{
+		PrintWriter writerRecord = null;
+		String savedFilePath = "...";
+		FileDialog saveDialog = null;
+		int confirmSave = JOptionPane.showConfirmDialog (null, "Voulez-vous sauvegarder votre enregistrement ?","Warning", JOptionPane.YES_NO_OPTION);
+		if(confirmSave == JOptionPane.YES_OPTION)
+		{
+			try 
+			{
+				saveDialog = new FileDialog(new Frame(), "Choisissez un fichier de sauvegarde", FileDialog.SAVE);
+				saveDialog.setFile("new file.gti745");
+				saveDialog.setVisible(true);
+				savedFilePath = saveDialog.getDirectory() + saveDialog.getFile();
+				setFileName(saveDialog.getFile());
+					
+				saveFile();
+				writerRecord = new PrintWriter(savedFilePath, "UTF-8");
+				
+				for( int i = 0; i< recording.getNotes().size(); i++ )
+				{
+					getNotes().add( recording.getNote(i) );
+					writerRecord.println(recording.getNote(i).getIdInstrument() + ":" + recording.getNote(i).getDuration() );
+				}
+				writerRecord.close();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			System.out.println("L'utilisateur a annuler la save");
+		}
 	}
 	
 	public void initializeNotes(String filePath)
@@ -141,6 +217,7 @@ public class Animation
 		int dururation = 0;
 		if( file.exists() )
 		{
+			setFileName(file.getName());
 			clearNotes();
 			try 
 			{
@@ -159,6 +236,10 @@ public class Animation
 			catch (IOException ioe) 
 			{
 				ioe.printStackTrace();
+			} 
+			catch (NumberFormatException nfe) 
+			{
+				nfe.printStackTrace();
 			} 
 		}
 		else

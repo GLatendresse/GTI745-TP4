@@ -19,6 +19,7 @@ public class Buttons
 	public static final int BUTTON_RECORD = 5; 
 	public static final int BUTTON_DEMO1 = 6;
 	public static final int BUTTON_DEMO2 = 7; 
+	public static final int BUTTON_NEW = 8; 
 	
 	public static final int BASS_DRUM = 1; 
 	public static final int FLOOR_TOM_TOM = 2; 
@@ -82,62 +83,29 @@ public class Buttons
 			{
 	
 			case BUTTON_IMPORT:
-				
-				FileDialog fd = new FileDialog(new Frame(), "Choose a file", FileDialog.LOAD);
-				File file = null;
-				fd.setDirectory("C:\\");
-				fd.setFile("*");
-				fd.setVisible(true);
-				String filename = fd.getFile();
-				String filePath = fd.getDirectory();
-				if (filename == null)
-				{
-				  System.out.println("You cancelled the choice");
-				}
-				else
-				{
-					System.out.println("You chose " + filePath); 
-					filePath += filename;
-					file = new File(filePath);
-					if( file.exists() )
-					{
-						drum.getAnimation().setFileName(filename);
-						drum.getAnimation().initializeNotes(filePath);
-					}
-				    // readFile( drum, filePath +  filename );
-				    // playDemo(drum);
-				}
-	
-				//Sound.SoundTest();
+				drum.getAnimation().importFile();
 				break;
 			case BUTTON_SAVE:
-				System.out.println("save file");
-				int confirmSave = JOptionPane.showConfirmDialog (null, "Voulez-vous sauvegarder votre enregistrement ?","Warning", JOptionPane.YES_NO_OPTION);
-				if(confirmSave == JOptionPane.YES_OPTION)
-				{
-					FileDialog saveDialog = new FileDialog(new Frame(), "Choisissez un fichier de sauvegarde", FileDialog.SAVE);
-					File fileRecord = new File(saveDialog.getFile());
-					saveDialog.setFile("new file.gti745");
-					saveDialog.setVisible(true);
-					Recording recording = drum.getRecording();
-					Animation animation = drum.getAnimation();
-					
-					animation.saveFile();
-					for( int i = 0; i< recording.getNotes().size(); i++ )
-					{
-						animation.getNotes().add( recording.getNote(i) );
-					}
-				}
-				
+				drum.getAnimation().SaveRecordToFile( drum.getRecording() );	
 				break;
 			case BUTTON_PLAY:
+				System.out.println("Bouton play press !!");
 				if( drum.getAnimation().isAnimationInPause() )
-					if( drum.getAnimation().isAnimationPlay() )
-						drum.getAnimation().playAnimation();
-					else if( drum.getAnimation().isDemoPlay() )
+				{
+					if( drum.getAnimation().isDemoPlay() )
+					{
 						drum.getAnimation().playDemo();
+					}
+					else
+					{
+						System.out.println("Animation Play");
+						drum.getAnimation().playAnimation();
+					}
+				}
 				else
+				{
 					drum.getAnimation().pauseAnimation();
+				}
 				break;
 			case BUTTON_STOP:
 				//Si on est en mode enregistrer
@@ -186,6 +154,9 @@ public class Buttons
 				menu.getButton(BUTTON_RECORD -1).desactivate();
 				menu.getButton(BUTTON_DEMO1 -1).desactivate();
 				
+				break;
+			case BUTTON_NEW:
+				drum.getAnimation().createNewFile();
 				break;
 			default:
 				

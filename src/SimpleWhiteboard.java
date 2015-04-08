@@ -1811,6 +1811,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				{
 					drum.getAnimation().setFileChanged();
 				}
+				System.out.println("Add note: " + drumPart.getType());
 				drum.getRecording().getNotes().add(new Note(drumPart.getType(), 200));
 			}
 			//Thread.sleep(1000);
