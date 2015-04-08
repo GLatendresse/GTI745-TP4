@@ -1879,23 +1879,55 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				
 			if( drumPart.getType() == DrumPart.BASS_DRUM)
 			{
-				drumPart.setCenterX(mouse_x);
-				drumPart.setCenterY(mouse_y + (1.f/2.f)*drumPart.getRadius());
+				
+				if(mouse_x - drumPart.getRadius() >= drum.getDrumPostionX() && mouse_x + drumPart.getRadius() <= drum.getDrumPostionX() + drum.getDrumWidth()){
+					
+					drumPart.setCenterX(mouse_x);
+					
+				}
+				
+				if(mouse_y + (1.f/2.f)*drumPart.getRadius() - drumPart.getRadius() >= drum.getDrumPostionY() && mouse_y + (1.f/2.f)*drumPart.getRadius() <= drum.getDrumPostionY() + drum.getDrumHeight()){
+					
+					drumPart.setCenterY(mouse_y + (1.f/2.f)*drumPart.getRadius());
+					
+				}
+				
 				//Thread.sleep(1000);
 				//DrumPart2.playSound();
 			}
 			
 			else if(drumPart.getType() == DrumPart.HIHAT_PEDAL){
 				
-				drumPart.setCenterX(mouse_x - (1.f/2.f)*drumPart.getRadius());
-				drumPart.setCenterY(mouse_y - (1.f/2.f)*drumPart.getRadius());
+				if(mouse_x - drumPart.getRadius() >= drum.getDrumPostionX() && mouse_x + drumPart.getRadius() <= drum.getDrumPostionX() + drum.getDrumWidth()){
+					
+					drumPart.setCenterX(mouse_x - drumPart.getRadius());
+					
+				}
+				
+				if(mouse_y - drumPart.getRadius() >= drum.getDrumPostionY() && mouse_y + drumPart.getRadius() <= drum.getDrumPostionY() + drum.getDrumHeight()){
+					
+					drumPart.setCenterY(mouse_y - drumPart.getRadius());
+					
+				}
 				
 			}
 			
-			else if(drumPart != null){
+			else if(drumPart != null)
+			{
 				
-				drumPart.setCenterX(mouse_x);
-				drumPart.setCenterY(mouse_y);
+				if(mouse_x - drumPart.getRadius() >= drum.getDrumPostionX() && mouse_x + drumPart.getRadius() <= drum.getDrumPostionX() + drum.getDrumWidth()){
+					
+					drumPart.setCenterX(mouse_x);
+					
+				}
+				
+				if(mouse_y - drumPart.getRadius() >= drum.getDrumPostionY() && mouse_y + drumPart.getRadius() <= drum.getDrumPostionY() + drum.getDrumHeight()){
+					
+					drumPart.setCenterY(mouse_y);
+					
+				}
+				
+				
 				
 			}
 			
