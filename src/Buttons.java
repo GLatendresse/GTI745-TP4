@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 //Les boutons du menu
 
 public class Buttons 
@@ -110,15 +112,22 @@ public class Buttons
 				break;
 			case BUTTON_SAVE:
 				System.out.println("save file");
-				Recording recording = drum.getRecording();
-				Animation animation = drum.getAnimation();
-				
-				animation.saveFile();
-				for( int i = 0; i< recording.getNotes().size(); i++ )
+				int confirmSave = JOptionPane.showConfirmDialog (null, "Voulez-vous sauvegarder votre enregistrement ?","Warning", JOptionPane.YES_NO_OPTION);
+				if(confirmSave == JOptionPane.YES_OPTION)
 				{
-					animation.getNotes().add( recording.getNote(i) );
+					FileDialog saveDialog = new FileDialog(new Frame(), "Choisissez un fichier de sauvegarde", FileDialog.SAVE);
+					File fileRecord = new File(saveDialog.getFile());
+					saveDialog.setFile("new file.gti745");
+					saveDialog.setVisible(true);
+					Recording recording = drum.getRecording();
+					Animation animation = drum.getAnimation();
+					
+					animation.saveFile();
+					for( int i = 0; i< recording.getNotes().size(); i++ )
+					{
+						animation.getNotes().add( recording.getNote(i) );
+					}
 				}
-				
 				
 				break;
 			case BUTTON_PLAY:
