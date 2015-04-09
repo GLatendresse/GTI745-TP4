@@ -125,6 +125,7 @@ public class Buttons
 				if( drum.getRecording().isRecording() )
 				{
 					drum.getRecording().stopRecording();
+					drum.getRecording().getNote( drum.getRecording().getNotes().size()-1 ).setDuration( 0 );
 				}
 				//Si on est en mode jouer enregistrement
 				else
@@ -156,6 +157,7 @@ public class Buttons
 				menu.getButton(BUTTON_IMPORT -1).desactivate();
 				menu.getButton(BUTTON_RECORD -1).desactivate();
 				menu.getButton(BUTTON_DEMO2 -1).desactivate();
+				menu.getButton(BUTTON_NEW -1).desactivate();
 				
 				break;
 			case BUTTON_DEMO2:
@@ -167,6 +169,7 @@ public class Buttons
 				menu.getButton(BUTTON_IMPORT -1).desactivate();
 				menu.getButton(BUTTON_RECORD -1).desactivate();
 				menu.getButton(BUTTON_DEMO1 -1).desactivate();
+				menu.getButton(BUTTON_NEW -1).desactivate();
 				
 				break;
 			case BUTTON_NEW:

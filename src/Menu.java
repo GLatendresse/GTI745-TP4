@@ -102,7 +102,7 @@ public class Menu
 				else
 					gw.setColor(Color.GRAY);
 				gw.drawCenteredCircle(button.getCenterX(), button.getCenterY(), button.getRadius(), true);
-				gw.setColor(Color.WHITE);
+				gw.setColor(Color.BLACK);
 				gw.drawString(button.getCenterX() - button.getRadius(), button.getCenterY(), button.getName());			
 			}
 		}
