@@ -1992,10 +1992,10 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 		//System.out.println("event: "+id+", "+x+", "+y+", "+type);
 
 		if (type == 0){
-		drumPart = drum.getDrumPartMouseClicked((int)x, (int)y);
-		//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
-			
-			if( drumPart != null)
+			drumPart = drum.getDrumPartMouseClicked((int)x, (int)y);
+			//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
+				
+			if( drumPart != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
 			{
 				try {
 					drumPart.playSound(drum.getCymbalHihatOpening());
@@ -2008,14 +2008,55 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			}
 			// multitouchFramework.requestRedraw();
 			
+			if( drum.getRecording().isRecording() )
+			{
+				if( drum.getRecording().getNotes().isEmpty() )
+				{
+					drum.getAnimation().setFileChanged();
+					//tempsEntre2notes = 200;
+					//drum.getRecording().setTimeOfLastNote( tempsEntre2notes );
+					drum.getRecording().getNotes().add(new Note(drumPart.getType(), drum.getRecording().getCurrentTime()));
+				}
+				else
+				{
+					tempsEntre2notes =  drum.getRecording().getCurrentTime() - drum.getRecording().getTimeOfLastNote();
+					System.out.print(tempsEntre2notes + "   ");
+					tempsEntre2notes = (int)(tempsEntre2notes * (1000/60));
+					System.out.print(tempsEntre2notes + "   ");
+					tempsEntre2notes = (tempsEntre2notes / 50)*50;
+					System.out.println(tempsEntre2notes);
+					drum.getRecording().getNote( drum.getRecording().getNotes().size()-1 ).setDuration( tempsEntre2notes  );
+					drum.getRecording().setTimeOfLastNote( drum.getRecording().getCurrentTime() ); 
+					drum.getRecording().getNotes().add(new Note(drumPart.getType(), tempsEntre2notes));
+				}
+				System.out.println("Add note: " + drumPart.getType());
+				
+			}
+			
 			Buttons button;
 			button = menu.getButtonMouseClicked((int)x, (int)y);
-			if( button != null )
+			if( button != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
 			{
 				button.doFunction(drum, menu);
 			}
 			else
 			{	
+				//Clic dans le menu des modes
+				if((x <= modeMenu.getCenterX()+modeMenu.getWidth() && x >= modeMenu.getCenterX()) 
+						&&  (y <= modeMenu.getCenterY()+modeMenu.getHeight() && y >= modeMenu.getCenterY())){
+					
+					modeMenu.setCurrentModeWhenClicked((int)x);
+					
+					if( modeMenu.getCurrentMode() == ModeMenu.PLAYMODE )
+					{
+						menu.activateAllButton();
+					}
+					else
+					{
+						menu.desactivateAllButton();
+					}
+				}
+			
 				//Activer metronome
 				if((x <= metronome.getCenterX()+metronome.getWidth() && x >= metronome.getCenterX()) 
 						&&  (y <= metronome.getCenterY()+metronome.getHeight() && y >= metronome.getCenterY())){
@@ -2053,20 +2094,85 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			}
 		
 		
-		int indexOfUserContext = findIndexOfUserContextForMultitouchInputEvent( id, x, y );
-
-		boolean doOtherUserContextsHaveCursors = false;
-		for ( int j = 0; j < Constant.NUM_USERS; ++j ) {
-			if ( j != indexOfUserContext && userContexts[j].hasCursors() ) {
-				doOtherUserContextsHaveCursors = true;
-				break;
+			
+		}else if (type == 1){
+			if(modeMenu.getCurrentMode() == ModeMenu.DRAGMODE){
+				
+				drumPart = drum.getDrumPartMouseClicked((int)x, (int)y);
+				//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
+					
+				if( drumPart.getType() == DrumPart.BASS_DRUM)
+				{
+					
+					if(x - drumPart.getRadius() >= drum.getDrumPostionX() && x + drumPart.getRadius() <= drum.getDrumPostionX() + drum.getDrumWidth()){
+						
+						drumPart.setCenterX((int)x);
+						
+					}
+					
+					if(y + (1.f/2.f)*drumPart.getRadius() - drumPart.getRadius() >= drum.getDrumPostionY() && y + (1.f/2.f)*drumPart.getRadius() <= drum.getDrumPostionY() + drum.getDrumHeight()){
+						
+						drumPart.setCenterY((int)y + (1.f/2.f)*drumPart.getRadius());
+						
+					}
+					
+					//Thread.sleep(1000);
+					//DrumPart2.playSound();
+				}
+				
+				else if(drumPart.getType() == DrumPart.HIHAT_PEDAL){
+					
+					if(x - drumPart.getRadius() >= drum.getDrumPostionX() && x + drumPart.getRadius() <= drum.getDrumPostionX() + drum.getDrumWidth()){
+						
+						drumPart.setCenterX((int)x - drumPart.getRadius());
+						
+					}
+					
+					if(y - drumPart.getRadius() >= drum.getDrumPostionY() && y + drumPart.getRadius() <= drum.getDrumPostionY() + drum.getDrumHeight()){
+						
+						drumPart.setCenterY((int)y - drumPart.getRadius());
+						
+					}
+					
+				}
+				
+				else if(drumPart != null)
+				{
+					
+					if(x - drumPart.getRadius() >= drum.getDrumPostionX() && x + drumPart.getRadius() <= drum.getDrumPostionX() + drum.getDrumWidth()){
+						
+						drumPart.setCenterX((int)x);
+						
+					}
+					
+					if(y - drumPart.getRadius() >= drum.getDrumPostionY() && y + drumPart.getRadius() <= drum.getDrumPostionY() + drum.getDrumHeight()){
+						
+						drumPart.setCenterY((int)y);
+						
+					}
+					
+					
+					
+				}
+				
 			}
 		}
+		
+		
+		int indexOfUserContext = findIndexOfUserContextForMultitouchInputEvent( id, x, y );
 
-		boolean redrawRequested = userContexts[indexOfUserContext].processMultitouchInputEvent( id, x, y, type, gw, doOtherUserContextsHaveCursors );
-		if ( redrawRequested )
-			multitouchFramework.requestRedraw();
-	}}
+			boolean doOtherUserContextsHaveCursors = false;
+			for ( int j = 0; j < Constant.NUM_USERS; ++j ) {
+				if ( j != indexOfUserContext && userContexts[j].hasCursors() ) {
+					doOtherUserContextsHaveCursors = true;
+					break;
+				}
+			}
+
+			boolean redrawRequested = userContexts[indexOfUserContext].processMultitouchInputEvent( id, x, y, type, gw, doOtherUserContextsHaveCursors );
+			if ( redrawRequested )
+				multitouchFramework.requestRedraw();
+	}
 }
 
 
