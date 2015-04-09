@@ -1899,6 +1899,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			drumPart = drum.getDrumPartMouseClicked(mouse_x, mouse_y);
 			//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
 				
+			if(drumPart != null){
 			if( drumPart.getType() == DrumPart.BASS_DRUM)
 			{
 				
@@ -1952,7 +1953,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				
 				
 			}
-			
+			}
 		}
 	
 		// multitouchFramework.requestRedraw();
@@ -2012,7 +2013,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			}
 			// multitouchFramework.requestRedraw();
 			
-			if( drum.getRecording().isRecording() )
+			if( drum.getRecording().isRecording() && drumPart != null)
 			{
 				if( drum.getRecording().getNotes().isEmpty() )
 				{
@@ -2020,14 +2021,19 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					//tempsEntre2notes = 200;
 					//drum.getRecording().setTimeOfLastNote( tempsEntre2notes );
 					drum.getRecording().getNotes().add(new Note(drumPart.getType(), drum.getRecording().getCurrentTime()));
+					drum.isFirstRecordNote = true;
 				}
 				else
 				{
+					if (drum.isFirstRecordNote){
+						tempsEntre2notes/=2;
+						drum.isFirstRecordNote = false;
+					}
 					tempsEntre2notes =  drum.getRecording().getCurrentTime() - drum.getRecording().getTimeOfLastNote();
 					System.out.print(tempsEntre2notes + "   ");
-					tempsEntre2notes = (int)(tempsEntre2notes * (1000/60));
+					tempsEntre2notes = (int)(tempsEntre2notes * (1000/20));
 					System.out.print(tempsEntre2notes + "   ");
-					tempsEntre2notes = (tempsEntre2notes / 50)*50;
+					//tempsEntre2notes = (tempsEntre2notes / 50)*50;
 					System.out.println(tempsEntre2notes);
 					drum.getRecording().getNote( drum.getRecording().getNotes().size()-1 ).setDuration( tempsEntre2notes  );
 					drum.getRecording().setTimeOfLastNote( drum.getRecording().getCurrentTime() ); 
@@ -2039,7 +2045,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 			
 			Buttons button;
 			button = menu.getButtonMouseClicked((int)x, (int)y);
-			if( button != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE)
+			if( button != null && modeMenu.getCurrentMode() == ModeMenu.PLAYMODE && button.getType() != 1 && button.getType() != 2 && button.getType() != 8)
 			{
 				button.doFunction(drum, menu);
 			}
@@ -2104,7 +2110,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				
 				drumPart = drum.getDrumPartMouseClicked((int)x, (int)y);
 				//	DrumPart2 = drum.getDrumPartMouseClicked(mouse_x+50, mouse_y);
-					
+				if(drumPart != null){	
 				if( drumPart.getType() == DrumPart.BASS_DRUM)
 				{
 					
@@ -2158,7 +2164,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					
 					
 				}
-				
+				}
 			}
 		}
 		
@@ -2173,9 +2179,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				}
 			}
 
-			boolean redrawRequested = userContexts[indexOfUserContext].processMultitouchInputEvent( id, x, y, type, gw, doOtherUserContextsHaveCursors );
-			if ( redrawRequested )
-				multitouchFramework.requestRedraw();
+			multitouchFramework.requestRedraw();
 	}
 }
 

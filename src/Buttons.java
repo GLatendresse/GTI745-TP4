@@ -59,6 +59,7 @@ public class Buttons
 	public float getRadius(){ return this.radius; }
 	public float getCenterX(){ return this.centerX; }
 	public float getCenterY(){ return this.centerY; }
+	public int getType(){ return this.type; }
 	
 	public boolean isActivate() { return isActivate; }
 	public void activate(){  isActivate = true; }
