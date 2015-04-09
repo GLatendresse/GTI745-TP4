@@ -1360,7 +1360,6 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 				}
 				else
 				{
-
 					playAnimation();
 				}
 				multitouchFramework.requestRedraw();
@@ -1443,7 +1442,7 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					nbNotes = animation.getDemo().size();
 				}
 				
-				if (tempsRestant == 0)
+				if (tempsRestant <= 0)
 				{
 					//Si c'est un fichier exporté
 					if( animation.isAnimationPlay() )
@@ -1816,14 +1815,19 @@ public class SimpleWhiteboard implements Runnable /* KeyListener, ActionListener
 					//tempsEntre2notes = 200;
 					//drum.getRecording().setTimeOfLastNote( tempsEntre2notes );
 					drum.getRecording().getNotes().add(new Note(drumPart.getType(), drum.getRecording().getCurrentTime()));
+					drum.isFirstRecordNote = true;
 				}
 				else
 				{
 					tempsEntre2notes =  drum.getRecording().getCurrentTime() - drum.getRecording().getTimeOfLastNote();
 					System.out.print(tempsEntre2notes + "   ");
-					tempsEntre2notes = (int)(tempsEntre2notes * (1000/60));
+					if (drum.isFirstRecordNote){
+						tempsEntre2notes/=2;
+						drum.isFirstRecordNote = false;
+					}
+					tempsEntre2notes = (int)(tempsEntre2notes * (1000/20));
 					System.out.print(tempsEntre2notes + "   ");
-					tempsEntre2notes = (tempsEntre2notes / 50)*50;
+					//tempsEntre2notes = (tempsEntre2notes / 50)*50;
 					System.out.println(tempsEntre2notes);
 					drum.getRecording().getNote( drum.getRecording().getNotes().size()-1 ).setDuration( tempsEntre2notes  );
 					drum.getRecording().setTimeOfLastNote( drum.getRecording().getCurrentTime() ); 

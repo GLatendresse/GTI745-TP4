@@ -172,6 +172,7 @@ public class Animation
 		{
 			fileName = "New File";
 			clearNotes();
+			clearDemo();
 			isFileUpToDate = true;
 		}
 	}

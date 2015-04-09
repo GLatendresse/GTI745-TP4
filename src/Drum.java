@@ -21,6 +21,8 @@ public class Drum
 	private float drumHeight = 10.0f;
 	private float drumWidth = 10.0f; 
 	
+	public boolean isFirstRecordNote = false;
+	
 	public Drum(GraphicsWrapper gw)
 	{
 		// TODO Auto-generated method stub
